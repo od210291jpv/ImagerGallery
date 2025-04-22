@@ -1,0 +1,680 @@
+﻿/* Reuse existing .form-group, label, input styles if defined */
+/* Add/ensure styles for select */
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    height: 42px; /* Match input height if possible */
+    background-color: white; /* Ensure background */
+    -webkit-appearance: none; /* Remove default browser appearance */
+    -moz-appearance: none;
+    appearance: none;
+    /* Add custom dropdown arrow */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 10px 10px;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #007bff; /* Highlight on focus */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* Style for the placeholder option */
+.form-group select option[disabled] {
+    color: #999;
+}
+
+/* Styles for success/error messages specific to this form */
+.form-message {
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    display: none; /* Hidden by default */
+}
+
+.form-message.success {
+    color: #155724; /* Dark green text */
+    background-color: #d4edda; /* Light green background */
+    border: 1px solid #c3e6cb; /* Greenish border */
+    display: block;
+}
+
+.form-message.error {
+    color: #721c24; /* Dark red text */
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Reddish border */
+    display: block;
+}
+
+/* Стили специфичные для дашборда можно добавить сюда или в style.css */
+/* Общие сбросы и настройки */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; /* Светлый фон для области контента */
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* Основной контейнер дашборда */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh; /* Минимальная высота на весь экран */
+}
+
+/* Левая колонка - Sidebar */
+.sidebar {
+    width: 260px; /* Ширина сайдбара */
+    background-color: #343a40; /* Темный фон сайдбара */
+    color: #dee2e6; /* Светлый цвет текста */
+    padding: 20px;
+    flex-shrink: 0; /* Не сжиматься при недостатке места */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    color: #ffffff;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    border-bottom: 1px solid #495057;
+    padding-bottom: 15px;
+}
+
+/* Секции навигации */
+.nav-section {
+    margin-bottom: 25px;
+}
+
+    .nav-section h3 {
+        color: #adb5bd;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+    }
+
+/* Списки ссылок */
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    margin-bottom: 5px;
+}
+
+.nav-links a {
+    color: #dee2e6;
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+    .nav-links a:hover,
+    .nav-links a.active { /* Класс для активной ссылки */
+        background-color: #495057;
+        color: #ffffff;
+    }
+
+/* Правая колонка - Основной контент */
+.main-content {
+    flex-grow: 1; /* Занимает все оставшееся место */
+    padding: 30px;
+    overflow-y: auto; /* Добавляем скролл, если контент не помещается */
+}
+
+    .main-content h1 {
+        margin-top: 0;
+        margin-bottom: 30px;
+        color: #343a40;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 15px;
+    }
+
+/* Секция со статистикой */
+.dashboard-stats {
+    display: grid; /* Используем Grid для карточек статистики */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Адаптивные колонки */
+    gap: 20px; /* Отступы между карточками */
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    border-left: 5px solid #007bff; /* Цветная полоска слева */
+}
+
+    .stat-card:nth-child(2) {
+        border-left-color: #28a745; /* Другой цвет для второй карточки */
+    }
+
+    .stat-card:nth-child(3) {
+        border-left-color: #ffc107; /* Другой цвет для третьей карточки */
+    }
+
+
+.stat-value {
+    display: block;
+    font-size: 2.8em;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 1em;
+    color: #6c757d; /* Серый цвет для подписи */
+}
+
+/* Область для основного контента (списки, формы) */
+.content-area {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.content-area h2 {
+    margin-top: 0;
+}
+
+.showContentArea {
+    display: block;
+}
+
+.hideContentArea {
+    display: none
+}
+
+.content-area h2,
+.add-user-container h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.6em; /* Немного крупнее */
+    font-weight: 600;
+    border-bottom: 1px solid #eee; /* Легкое подчеркивание */
+    padding-bottom: 10px;
+}
+
+/* Группа полей формы */
+.form-group {
+    margin-bottom: 22px; /* Увеличим отступ между группами */
+}
+
+    /* Метки (Labels) */
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600; /* Сделаем пожирнее */
+        color: #555; /* Немного темнее */
+        font-size: 0.95em; /* Чуть меньше основного */
+    }
+
+    /* Стили для input и select */
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"],
+    .form-group select {
+        width: 100%;
+        padding: 12px 15px; /* Комфортные отступы */
+        border: 1px solid #d1d5db; /* Более мягкая граница */
+        border-radius: 6px; /* Чуть более скругленные углы */
+        font-size: 1rem;
+        color: #333;
+        background-color: #fff; /* Явный белый фон */
+        box-sizing: border-box;
+        height: 44px; /* Зададим единую высоту */
+        transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Плавные переходы */
+        -webkit-appearance: none; /* Убираем стандартный вид для select */
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+/*button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1em;
+}*/
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Улучшенный вид для select */
+    .form-group select {
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236c757d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); /* Серая стрелка */
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 12px 12px; /* Чуть крупнее стрелка */
+        cursor: pointer;
+    }
+
+        /* Улучшенный стиль при фокусе */
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #80bdff; /* Ярче граница при фокусе */
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Мягкая внешняя тень */
+        }
+
+        /* Стиль для placeholder option в select */
+        .form-group select option[disabled] {
+            color: #adb5bd; /* Светлее для плейсхолдера */
+        }
+
+/* Кнопка отправки */
+.submit-btn { /* Используем тот же класс, что и раньше */
+    width: 100%;
+    padding: 12px 15px;
+    background: linear-gradient(180deg, #007bff 0%, #0069d9 100%); /* Градиент */
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600; /* Немного жирнее */
+    border: none; /* Убираем границу */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    margin-top: 15px; /* Отступ сверху */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+    .submit-btn:hover {
+        background: linear-gradient(180deg, #0069d9 0%, #0056b3 100%); /* Темнее градиент */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px); /* Легкий подъем */
+    }
+
+    .submit-btn:active {
+        background: linear-gradient(180deg, #0056b3 0%, #004085 100%); /* Еще темнее */
+        transform: translateY(0px);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Тень при фокусе */
+    }
+
+
+/* Улучшенные стили для сообщений */
+.form-message {
+    padding: 12px 18px; /* Увеличим отступы */
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 0.95em;
+    font-weight: 500;
+    display: none; /* Скрыто по умолчанию */
+    border-left-width: 5px; /* Добавим акцентную полоску слева */
+    border-left-style: solid;
+}
+
+    .form-message.success {
+        color: #0f5132;
+        background-color: #d1e7dd;
+        border-color: #badbcc; /* Цвет границы совпадает с фоном */
+        border-left-color: #0f5132; /* Акцентная полоска */
+        display: block;
+    }
+
+    .form-message.error {
+        color: #842029;
+        background-color: #f8d7da;
+        border-color: #f5c2c7;
+        border-left-color: #842029; /* Акцентная полоска */
+        display: block;
+    }
+
+/* --- Стили для списка пользователей --- */
+
+/* Обертка для таблицы для горизонтального скролла на маленьких экранах */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 15px; /* Отступ сверху */
+    border: 1px solid #dee2e6; /* Граница вокруг таблицы */
+    border-radius: 6px;
+    background-color: #fff; /* Фон таблицы */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* Базовые стили таблицы */
+.users-table {
+    width: 100%;
+    border-collapse: collapse; /* Убираем двойные границы */
+    min-width: 600px; /* Минимальная ширина, чтобы колонки не слипались */
+}
+
+    /* Стили заголовков таблицы */
+    .users-table thead tr {
+        background-color: #f8f9fa; /* Светлый фон для заголовка */
+        border-bottom: 2px solid #dee2e6; /* Более жирная граница под заголовком */
+    }
+
+    .users-table th {
+        padding: 12px 15px; /* Отступы в заголовках */
+        text-align: left; /* Выравнивание текста влево */
+        font-weight: 600; /* Жирный шрифт */
+        color: #495057; /* Цвет текста заголовка */
+        white-space: nowrap; /* Запрет переноса строк */
+    }
+
+    /* Стили ячеек таблицы */
+    .users-table tbody td {
+        padding: 12px 15px; /* Отступы в ячейках */
+        border-bottom: 1px solid #dee2e6; /* Граница между строками */
+        vertical-align: middle; /* Выравнивание по центру по вертикали */
+        color: #495057;
+    }
+
+    /* Чередование цветов строк для лучшей читаемости (опционально) */
+    .users-table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02); /* Очень легкий фон для нечетных строк */
+    }
+
+    .users-table tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.05); /* Легкая подсветка при наведении */
+    }
+
+/* Стили для бейджей ролей */
+.role-badge {
+    padding: 3px 8px;
+    border-radius: 10px; /* Сильно скругленные углы */
+    font-size: 0.8em;
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-block; /* Чтобы padding работал корректно */
+}
+
+    .role-badge.role-admin {
+        background-color: #d1ecf1; /* Голубой фон для админа */
+        color: #0c5460; /* Темно-голубой текст */
+        border: 1px solid #bee5eb;
+    }
+
+    .role-badge.role-user {
+        background-color: #e2e3e5; /* Серый фон для пользователя */
+        color: #383d41; /* Темно-серый текст */
+        border: 1px solid #d6d8db;
+    }
+
+/* Стили для колонки "Действия" */
+.users-table td.actions {
+    text-align: right; /* Выравнивание кнопок вправо */
+    white-space: nowrap;
+}
+
+/* Общие стили для кнопок (могут быть уже определены) */
+.btn {
+    display: inline-flex; /* Используем flex для выравнивания иконки и текста */
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+    .btn svg { /* Убедимся что иконки не слишком большие */
+        width: 1em;
+        height: 1em;
+    }
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+/* Стили для маленьких кнопок действий */
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+td.actions .btn-sm { /* Добавим отступ между кнопками */
+    margin-left: 5px;
+}
+
+    td.actions .btn-sm:first-child {
+        margin-left: 0;
+    }
+
+    td.actions .btn-sm svg { /* Чуть меньше иконки для маленьких кнопок */
+        width: 0.9em;
+        height: 0.9em;
+    }
+
+
+.btn-edit {
+    color: #007bff;
+    background-color: #e7f3ff;
+    border-color: transparent;
+}
+
+    .btn-edit:hover {
+        color: #fff;
+        background-color: #007bff;
+    }
+
+.btn-delete {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border-color: transparent;
+}
+
+    .btn-delete:hover {
+        color: #fff;
+        background-color: #dc3545;
+    }
+
+/* Стиль для скрытия текста визуально, но доступности для скринридеров */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Стили для простого модального окна подтверждения */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; /* Оставаться на месте */
+    z-index: 1050; /* Поверх всего */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Включить прокрутку, если нужно */
+    background-color: rgba(0,0,0,0.5); /* Полупрозрачный фон */
+    display: flex; /* Используем Flexbox для центрирования */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 25px 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 450px; /* Макс ширина окна */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close-modal-btn {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+    .close-modal-btn:hover,
+    .close-modal-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+    margin-right: 5px;
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+/* --- Конец стилей для списка пользователей --- */
+
+/* --- Стили для списка постов --- */
+
+/* Убедимся, что основные стили таблицы применены и к .posts-table */
+/* Можно скопировать стили из .users-table или использовать общие классы */
+.posts-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px; /* Минимальная ширина может быть больше из-за кол-ва колонок */
+    /* Наследуем или копируем стили фона, границ, отступов ячеек из .users-table */
+}
+
+    .posts-table thead tr {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .posts-table th {
+        padding: 12px 15px;
+        text-align: left;
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+    }
+
+    .posts-table tbody td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+        color: #495057;
+    }
+
+    .posts-table tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .posts-table tbody tr:hover {
+        background-color: rgba(0, 123, 255, 0.05);
+    }
+
+    /* Стили для колонки "Действия" (должны наследоваться) */
+    .posts-table td.actions {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+/* Класс для усечения длинного текста (применить к нужным <td>) */
+.text-truncate {
+    max-width: 200px; /* Максимальная ширина ячейки, подберите значение */
+    white-space: nowrap; /* Запретить перенос строк */
+    overflow: hidden; /* Скрыть выходящий текст */
+    text-overflow: ellipsis; /* Добавить троеточие */
+    vertical-align: middle; /* Иногда помогает с выравниванием */
+}
+    /* Для ссылок внутри таких ячеек */
+    .text-truncate a {
+        color: inherit; /* Наследовать цвет текста ячейки */
+        text-decoration: underline; /* Подчеркивание для ясности */
+        text-decoration-color: #adb5bd; /* Цвет подчеркивания */
+        display: inline-block; /* Чтобы троеточие работало */
+        max-width: 100%; /* Не выходить за пределы ячейки */
+        vertical-align: middle;
+    }
+
+        .text-truncate a:hover {
+            text-decoration-color: #0056b3;
+        }
+
+.posts-table td.text-truncate {
+    /* 1. Задаем максимальную ширину */
+    /* Подберите значение, которое соответствует ~20 символам вашего шрифта */
+    /* или просто визуально комфортную ширину */
+    max-width: 200px; /* Например, 200 пикселей. МОЖНО ИЗМЕНИТЬ! */
+    /* 2. Запрещаем перенос текста на новую строку */
+    white-space: nowrap;
+    /* 3. Скрываем то, что не помещается */
+    overflow: hidden;
+    /* 4. Добавляем многоточие */
+    text-overflow: ellipsis;
+}
+
+/* Убедимся, что стили кнопок (.btn, .btn-sm, .btn-edit, .btn-delete) применяются */
+/* Если они не применяются, возможно, нужно добавить специфичности */
+/* Например: .posts-table .btn-edit { ... } */
+
+/* Стили для модального окна подтверждения (переиспользуются) */
+/* .modal { ... } */
+/* .modal-content { ... } */
+/* ... */

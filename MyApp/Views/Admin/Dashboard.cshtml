@@ -1,0 +1,222 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель Администратора</title>
+    
+    <link rel="stylesheet" href="~/css/Dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <h2>Админ Панель</h2>
+
+            <div class="nav-section">
+                <h3>Пользователи</h3>
+                <ul class="nav-links">
+                    <li><a href="/admin/users" class="active sidelink" id="users-list-link">Список пользователей</a></li>
+                    <li><a href="#" class="sidelink" id="createUser-link">Добавить пользователя</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <h3>Посты</h3>
+                <ul class="nav-links">
+                    <li><a href="/admin/posts" class="sidelink" id="posts-list-link">Список постов</a></li>
+                    <li><a href="/admin/posts/create" class="sidelink" id="create-post-link">Добавить пост</a></li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <h3>Настройки</h3>
+                <ul class="nav-links">
+                    <li><a href="/admin/settings" class="sidelink" id="settings-link">Общие настройки</a></li>
+                </ul>
+            </div>
+
+        </aside>
+
+        <main class="main-content">
+            <h1>Добро Пожаловать {Username}</h1>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <span class="stat-value" id="total-users-count">--</span>
+                    <span class="stat-label">Всего пользователей</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="total-posts-count">--</span>
+                    <span class="stat-label">Всего постов</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value" id="posts-today-count">--</span>
+                    <span class="stat-label">Постов сегодня (16.04.2025)</span>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <h2>Добро пожаловать!</h2>
+
+                <div id="add-user-contentarea" class="hideContentArea contentarea">
+                    <form id="add-user-form" method="POST" action="/admin/adminSignup">
+
+                        <div id="add-user-message" class="form-message" aria-live="polite">
+                            <!-- Success/error messages appear here -->
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newUserLogin">Логин (или Email):</label>
+                            <input type="text" id="newUserLogin" name="login" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newUserPassword">Пароль:</label>
+                            <input type="password" id="newUserPassword" name="password" required minlength="8"> <!-- Example min length -->
+                            <!-- Optional: Add password complexity hints or requirements display -->
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newUserRole">Роль:</label>
+                            <select id="newUserRole" name="role" required>
+                                <option value="" disabled selected>-- Выберите роль --</option>
+                                <option value="User">Пользователь (User)</option>
+                                <option value="Administrator">Администратор (Admin)</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Добавить пользователя</button>
+                    </form>
+                </div>
+                <div id="users-list-content-area" class="hideContentArea contentarea">
+                    <div class="actions-bar" style="margin-bottom: 20px;">
+                        <a href="/admin/users/create" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: -2px; margin-right: 5px;">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                            Добавить пользователя
+                        </a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Логин / Email</th>
+                                    <th>Пароль</th>
+                                    <th>Роль</th>
+                                    <th style="width: 180px;">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-list-body">
+
+
+                                <tr id="no-users-row" style="display: none;">
+                                    <td colspan="3" style="text-align: center; padding: 20px; color: #6c757d;">Пользователи не найдены.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="delete-confirm-modal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <span class="close-modal-btn" onclick="closeDeleteModal()">&times;</span>
+                            <h4>Подтвердите удаление</h4>
+                            <p>Вы уверены, что хотите удалить пользователя <strong id="delete-username-confirm"></strong>?</p>
+                            <div style="text-align: right;">
+                                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Отмена</button>
+                                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="posts-list-content-area" class="hideContentArea contentarea">
+                    <h2>Список постов</h2>
+
+                    <div class="actions-bar" style="margin-bottom: 20px;">
+                        <a href="/admin/posts/create" class="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: -2px; margin-right: 5px;">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                            </svg>
+                            Добавить пост
+                        </a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="posts-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 60px;">ID</th>
+                                    <th>URL Изображения</th>
+                                    <th>Alt Текст</th>
+                                    <th>Описание</th>
+                                    <th style="width: 80px;">Лайки</th>
+                                    <th>ID Публикатора</th>
+                                    <th style="width: 120px;">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="post-list-body">
+ 
+                                <tr id="no-posts-row" style="display: none;">
+                                    <td colspan="7" style="text-align: center; padding: 20px; color: #6c757d;">Посты не найдены.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="add-post-content-area" class="hideContentArea contentarea">
+                    <form id="add-post-form" method="POST" action="/Content">
+                        <div id="add-post-message" class="form-message" aria-live="polite">
+                            <!-- Success/error messages appear here -->
+                        </div>
+
+                        <div class="form-group">
+                            <label for="source">Источник (изображение):</label>
+                            <input type="file" class="btn btn-primary" id="source" name="source" accept="image/*" required>
+                            <span class="error-message" id="sourceError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Описание:</label>
+                            <input type="text" id="description" name="description" rows="4">
+                            <span class="error-message" id="descriptionError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alt">Alt (до 10 символов):</label>
+                            <input type="text" id="alt" name="alt" maxlength="10">
+                            <span class="error-message" id="altError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hidden">Скрыто:</label>
+                            <select id="hidden" name="hidden">
+                                <option value="false">False</option>
+                                <option value="true">True</option>
+                            </select>
+                            <span class="error-message" id="hiddenError"></span>
+                        </div>
+
+                        <button class="submit-btn" type="submit">Добавить публикацию</button>
+
+                    </form>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="~/js/dashboard.js"></script>
+</body>
+</html>

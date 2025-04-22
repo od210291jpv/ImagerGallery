@@ -1,0 +1,118 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #28a745; /* Зеленый цвет для регистрации */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+            button:hover {
+                background-color: #1e7e34;
+            }
+
+        .link-group {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Регистрация</h1>
+        <form id="registrationForm" action="/admin/adminSignup">
+            <div class="form-group">
+                <label for="registerLogin">Логин:</label>
+                <input type="text" id="registerLogin" name="registerLogin" required>
+                <span id="loginError" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Пароль:</label>
+                <input type="password" id="registerPassword" name="registerPassword" required>
+                <span id="passwordError" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="repeatPassword">Повторите пароль:</label>
+                <input type="password" id="repeatPassword" name="repeatPassword" required>
+                <span id="repeatPasswordError" class="error-message"></span>
+            </div>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        <div class="link-group">
+            <a href="/Login">Уже есть аккаунт? Войти</a>
+        </div>
+    </div>
+    <script src="~/js/register.js"></script>
+</body>
+</html>

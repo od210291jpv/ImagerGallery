@@ -1,0 +1,222 @@
+﻿
+.gallery-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Важно, чтобы скругление работало и подпись не вылезала */
+    display: flex; /* Используем flex для удобного расположения img и figcaption */
+    flex-direction: column; /* Располагаем вертикально: сначала картинка, потом подпись */
+    margin: 0; /* Сбрасываем стандартные отступы у figure */
+    height: 100%; /* Позволяем элементу растягиваться по высоте ячейки грида */
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили изображения внутри плитки */
+.gallery-item img {
+    display: block;
+    width: 100%;
+    /* Убрали aspect-ratio отсюда, если хотим чтобы вся ячейка была адаптивной */
+    /* Или оставляем aspect-ratio: 1/1; если хотим КАРТИНКУ квадратной */
+    aspect-ratio: 1 / 1;
+    object-fit: cover; /* Масштабирует с сохранением пропорций, обрезая лишнее */
+    /* Можно убрать hover эффект с картинки, если он есть на всем .gallery-item */
+    /* transition: opacity 0.3s ease; */
+}
+    /*
+.gallery-item img:hover {
+    opacity: 0.9;
+} */
+
+
+/* --- НОВЫЕ СТИЛИ для описания --- */
+.gallery-item .image-description { /* Стили для figcaption внутри .gallery-item */
+    padding: 10px 12px; /* Внутренние отступы */
+    font-size: 0.85em; /* Немного уменьшенный шрифт */
+    color: #333; /* Цвет текста */
+    text-align: center; /* Выравнивание текста по центру */
+    background-color: #fff; /* Фон совпадает с фоном карточки */
+    line-height: 1.4; /* Межстрочный интервал */
+    /* Опционально: ограничение по высоте или строкам, если текст длинный */
+    /* max-height: 5em; */
+    /* overflow: hidden; */
+}
+/* Базовые стили */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#search-container {
+    display: flex; /* Располагаем инпут и кнопку в ряд */
+    align-items: center; /* Выравниваем по центру по вертикали */
+    padding: 10px 15px;
+    background-color: #f8f9fa; /* Светлый фон */
+    border-bottom: 1px solid #dee2e6; /* Тонкая граница снизу */
+    /* --- Вариант позиционирования: Прилипание к верху при скролле --- */
+    position: sticky; /* "Прилипает" к верху */
+    top: 0; /* Начинает прилипать от самого верха */
+    z-index: 1020; /* Убедимся, что он поверх другого контента */
+    width: 100%; /* Занимает всю ширину (в рамках родителя) */
+    box-sizing: border-box; /* Учитываем padding в ширине */
+    /* --- Альтернатива: Фиксация наверху (требует padding-top для body) --- */
+    /* position: fixed; */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100%; */
+    /* z-index: 1020; */
+    /* box-sizing: border-box; */
+}
+
+/* Стили для поля ввода */
+#search-input {
+    flex-grow: 1; /* Занимает все доступное место */
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px 0 0 4px; /* Скругление левых углов */
+    margin-right: -1px; /* Небольшое перекрытие границы с кнопкой */
+    height: 38px; /* Фиксированная высота для выравнивания */
+    box-sizing: border-box;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Подсветка при фокусе */
+}
+
+/* Стили для кнопки поиска */
+#search-button {
+    padding: 0 12px; /* Отступы для кнопки с иконкой */
+    border: 1px solid #ced4da;
+    background-color: #e9ecef;
+    color: #495057;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0; /* Скругление правых углов */
+    display: inline-flex; /* Для выравнивания SVG */
+    align-items: center;
+    justify-content: center;
+    height: 38px; /* Фиксированная высота для выравнивания */
+    box-sizing: border-box;
+    transition: background-color 0.15s ease-in-out;
+}
+
+#search-button:hover {
+    background-color: #dee2e6;
+}
+
+#search-button svg {
+    display: block; /* Убрать лишнее пространство под SVG */
+}
+
+/* Стиль для скрытия текста, но доступности для скринридеров */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.zoom-in {
+    width: 1200px;
+    transition: 0.3s;
+    position:sticky
+}
+
+.zoom-out {
+    width: 203.5px;
+    transition: 0.3s;
+    
+}
+
+/* Стили контейнера галереи */
+.gallery-container {
+    display: grid;
+    /* Адаптивные колонки: минимум 200px, максимум 1fr */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px; /* Отступы между плитками */
+    margin-bottom: 30px;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03); /* Небольшое увеличение при наведении */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Стили изображения внутри плитки */
+.gallery-item img {
+    display: block; /* Убирает лишний отступ снизу */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Масштабирует изображение с сохранением пропорций, обрезая лишнее */
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item img:hover {
+    opacity: 0.9; /* Небольшая прозрачность при наведении на изображение */
+}
+
+
+/* Стили контейнера пагинации */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Перенос кнопок на новую строку, если не влезают */
+    gap: 8px; /* Отступы между кнопками */
+    padding: 15px 0;
+}
+
+/* Стили кнопок пагинации */
+.page-btn {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #337ab7; /* Цвет ссылок Bootstrap */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    min-width: 40px; /* Минимальная ширина для красивого вида цифр */
+    text-align: center;
+}
+
+.page-btn:hover:not(:disabled):not(.active) {
+    background-color: #eee;
+    border-color: #adadad;
+}
+
+/* Стиль активной кнопки (текущая страница) */
+.page-btn.active {
+    background-color: #337ab7;
+    color: #fff;
+    border-color: #337ab7;
+    font-weight: bold;
+    cursor: default;
+}
+
+/* Стиль неактивных кнопок (Назад/Вперед на крайних страницах) */
+.page-btn:disabled {
+    background-color: #f9f9f9;
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+    opacity: 0.7;
+}

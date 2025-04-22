@@ -1,0 +1,381 @@
+{
+  "Files": [
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MyApp.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MyApp.3mzque7fic.bundle.scp.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Images\\back.svg",
+      "PackagePath": "staticwebassets\\Images\\back.svg"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Images\\mainBack.svg",
+      "PackagePath": "staticwebassets\\Images\\mainBack.svg"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-18-10-09-26-1-make_a_photorealistic_high_detailed_photot_of_a_dog_that_is_bar-785170581-scale9.00-k_dpmpp_2m.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-18-10-09-26-1-make_a_photorealistic_high_detailed_photot_of_a_dog_that_is_bar-785170581-scale9.00-k_dpmpp_2m.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-11-34-19-1-Man_riding_a_horse-1307156524-scale7.50-euler-sd-v1-5.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-11-34-19-1-Man_riding_a_horse-1307156524-scale7.50-euler-sd-v1-5.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-12-05-39-1-Strong_and_tall_metal_robot_riding_a_horse-1300478867-scale7.50-euler-sd-v1-5.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-12-05-39-1-Strong_and_tall_metal_robot_riding_a_horse-1300478867-scale7.50-euler-sd-v1-5.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-12-14-51-1-Highly_detailed_portrait_of_a_strong_and_tall_metal_robot_ridin-620643608-scale7.50-euler.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-12-14-51-1-Highly_detailed_portrait_of_a_strong_and_tall_metal_robot_ridin-620643608-scale7.50-euler.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-12-22-38-1-Highly_detailed_portrait_of_a_strong_and_tall_metal_robot-2007157960-scale7.50-k_dpmpp_2m.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-12-22-38-1-Highly_detailed_portrait_of_a_strong_and_tall_metal_robot-2007157960-scale7.50-k_dpmpp_2m.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-12-30-26-1-Highly_detailed_portrait_of_a_strong_and_tall_metal_robot_rid-904478977-scale7.50-k_euler.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-12-30-26-1-Highly_detailed_portrait_of_a_strong_and_tall_metal_robot_rid-904478977-scale7.50-k_euler.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-15-20-21-1-Highly_detailed_photo_of_a_humanlike_metal_robot_riding_a_-731625865-scale8.50-k_dpmpp_2m.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-15-20-21-1-Highly_detailed_photo_of_a_humanlike_metal_robot_riding_a_-731625865-scale8.50-k_dpmpp_2m.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-16-06-22-1-Highly_detailed_photo_of_a_humanlike_metal_robot_riding_a_-1439563219-scale11.50-dpmpp_2m.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-16-06-22-1-Highly_detailed_photo_of_a_humanlike_metal_robot_riding_a_-1439563219-scale11.50-dpmpp_2m.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\2025-03-19-16-19-58-2-Highly_detailed_photo_of_a_humanlike_metal_robot_riding_a_-1439563220-scale11.50-dpmpp_2m.png",
+      "PackagePath": "staticwebassets\\Img\\2025-03-19-16-19-58-2-Highly_detailed_photo_of_a_humanlike_metal_robot_riding_a_-1439563220-scale11.50-dpmpp_2m.png"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\Img\\Gemini_Generated_Image_xgvj3zxgvj3zxgvj.jpg",
+      "PackagePath": "staticwebassets\\Img\\Gemini_Generated_Image_xgvj3zxgvj3zxgvj.jpg"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\css\\Dashboard.css",
+      "PackagePath": "staticwebassets\\css\\Dashboard.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\css\\Style.css",
+      "PackagePath": "staticwebassets\\css\\Style.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\Modules\\apiRequests.js",
+      "PackagePath": "staticwebassets\\js\\Modules\\apiRequests.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\Modules\\constants.js",
+      "PackagePath": "staticwebassets\\js\\Modules\\constants.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\admin.js",
+      "PackagePath": "staticwebassets\\js\\admin.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\dashboard.js",
+      "PackagePath": "staticwebassets\\js\\dashboard.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\dist\\constants.js",
+      "PackagePath": "staticwebassets\\js\\dist\\constants.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\dist\\feed.js",
+      "PackagePath": "staticwebassets\\js\\dist\\feed.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\dist\\gallery.js",
+      "PackagePath": "staticwebassets\\js\\dist\\gallery.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\dist\\login.js",
+      "PackagePath": "staticwebassets\\js\\dist\\login.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\dist\\register.js",
+      "PackagePath": "staticwebassets\\js\\dist\\register.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\feed.js",
+      "PackagePath": "staticwebassets\\js\\feed.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\gallery.js",
+      "PackagePath": "staticwebassets\\js\\gallery.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\register.js",
+      "PackagePath": "staticwebassets\\js\\register.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\js\\userLogin.js",
+      "PackagePath": "staticwebassets\\js\\userLogin.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\json\\current.json",
+      "PackagePath": "staticwebassets\\json\\current.json"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "E:\\Repos\\RazorApp\\MyApp\\MyApp\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MyApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MyApp.props",
+      "PackagePath": "build\\MyApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MyApp.props",
+      "PackagePath": "buildMultiTargeting\\MyApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MyApp.props",
+      "PackagePath": "buildTransitive\\MyApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
