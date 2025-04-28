@@ -7,7 +7,7 @@ const apis = new Apis();
 document.addEventListener('DOMContentLoaded', () => {
 
     const feedWrapper = document.getElementById("feed-wrapper");
-    const getPostsUrl = '/Home/images?showHidden=true';
+    const getPostsUrl = '/Home/images?showHidden=false';
 
     const jumpToStartBtn = document.getElementById('jumpToStartBtn');
     const searchInput = document.getElementById("search-input");

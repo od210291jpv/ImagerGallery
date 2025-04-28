@@ -1,3 +1,8 @@
 node_modules/
 .vs/
 cypress/.vs/
+/MyApp/wwwroot/Img/*.jpg
+/MyApp/wwwroot/Img/*.jpeg
+/MyApp/wwwroot/Img/*.png
+/MyApp/bin/
+/MyApp/obj/

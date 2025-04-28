@@ -20,10 +20,59 @@
             justify-content: flex-end;
         }
 
+        .profile-section {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            width: 200px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .avatar-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .publication-count {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .profile-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+
+        .profile-button:hover {
+            background-color: #0056b3;
+        }
+
         .feed-container {
-            width: 800px; /* Примерная ширина ленты */
+            margin: auto;
+            width: 100%; /* Примерная ширина ленты */
             display: flex;
             flex-direction: column;
+            padding-top: 40px;
+            padding-bottom: 40px;
             gap: 20px; /* Расстояние между постами */
         }
 
@@ -102,9 +151,9 @@
             z-index: 10; /* Чтобы кнопка была поверх остального контента */
         }
 
-            .jump-to-start.visible {
-                opacity: 1; /* Показываем кнопку при прокрутке */
-            }
+        .jump-to-start.visible {
+            opacity: 1; /* Показываем кнопку при прокрутке */
+        }
 
         .background-image {
             position: fixed;
@@ -127,6 +176,29 @@
             transform: rotate(-90deg);
             -webkit-transform: rotate(-90deg);
         }
+
+        .add-post-button {
+            position: fixed;
+            bottom: 20px;
+            right: 80px; /* Зміщуємо лівіше від "Jump to Start" */
+            background-color: #28a745; /* Зелений колір */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.5em;
+            z-index: 10;
+            text-decoration: none;
+        }
+
+        .add-post-button:hover {
+            background-color: #1e7e34;
+        }
     </style>
     <link rel="stylesheet" href="~/css/Style.css">
 </head>
@@ -145,11 +217,24 @@
     </header>
 
     <img src="~/Images/mainBack.svg" alt="Оранжевый фон" class="background-image">
+
+    <div class="profile-section">
+        <div class="avatar-placeholder"></div>
+        <div class="username">Ім'я Користувача</div>
+        <div class="publication-count">123 публікації</div>
+        <a href="/Profile" class="profile-button">Профіль</a>
+    </div>
+
     <div class="feed-container" id="feed-wrapper">        
     </div>
     <button class="jump-to-start" id="jumpToStartBtn">
         <i class="arrow-up"></i>
     </button>
+
+    <a href="/Home/AddPublication" class="add-post-button">
+        +
+    </a>
+
     <script type="module" src="~/js/dist/feed.js"></script>
 </body>
 </html>

@@ -21,8 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginForm.reset();
                 localStorage.setItem(result.userId, result.token);
                 localStorage.setItem("user", result.userId);
-
-                window.location.href = result.redirectUrl || '/index';
+                console.log("initial request passed " + result.userId);
+                const loginResult = await fetch(`home/default?userid=${result.userId}`, {
+                    method: "GET", headers: {
+                        "authToken" : result.token
+                    }
+                });
+                console.log(loginResult)
+                window.location.href = result.redirectUrl || `/index?userid=${result.userId}`;                
             }
         }
         catch (error)

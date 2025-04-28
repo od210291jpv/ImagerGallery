@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 using MyApp.Infra.Constants.Enums;
 using MyApp.Infra.Database;
 using MyApp.Infra.Database.Models;
@@ -15,18 +17,42 @@ namespace MyApp.Controllers
         private ApplicationContext database;
         private IAuthService authService;
         private ITokenService tokenService;
+        private IMemoryCache memCache;
 
-        public HomeController(ApplicationContext db, IAuthService authService, ITokenService tokenService)
+        public HomeController(ApplicationContext db, IAuthService authService, ITokenService tokenService, IMemoryCache memoryCache)
         {
             this.database = db;
             this.authService = authService;
             this.tokenService = tokenService;
+            this.memCache = memoryCache;
         }
 
         [HttpGet("default")]
-        public IActionResult Index()
+        public IActionResult Index(string? userId)
         {
-            return View();
+            StringValues token;
+            HttpContext.Request.Headers.TryGetValue("authToken", out token);
+
+
+            var tokenValue = token.FirstOrDefault();
+
+            if (tokenValue is null && userId == null) 
+            {
+                return Redirect("/Login");
+            }
+
+            if (tokenValue is null && userId is not null && userId != "") 
+            {
+                var chachedToken = this.memCache.Get(int.Parse(userId));
+                if (chachedToken is not null) 
+                {
+                    HttpContext.Response.Headers.Append("authToken", token);
+                    return View($"/index?userId={userId}");
+                }
+            }
+
+
+            return Redirect($"/index?userId={userId}");
         }
 
         [HttpPost("search")]
@@ -70,6 +96,12 @@ namespace MyApp.Controllers
             }
 
             string token = this.tokenService.GenerateToken(id.Value, UserRole.User);
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromHours(1));
+
+            this.memCache.Set(id, token, cacheEntryOptions);
+
             return new UserLoginResponseDto { Success = true, Token = token, UserId =id.Value };
         }
     }

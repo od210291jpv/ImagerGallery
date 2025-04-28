@@ -23,6 +23,6 @@ describe("Check Gallery page common UI items", () =>
                 expect($figure).to.have.length(itempsPerpage);
             });
 
-        galleryPage.assertPaginationPagesToBeGreather(0);        
+        galleryPage.assertPaginationPagesToBeGreatherThen(0);        
     })
 })

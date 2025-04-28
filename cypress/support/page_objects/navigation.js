@@ -1,4 +1,5 @@
 import { adminLogin } from "./admin_login";
+import { galleryPage } from "./gallery_page";
 
 export class Navigation {
     mainPage()
@@ -9,7 +10,7 @@ export class Navigation {
     galleryPage()
     {
         cy.contains("Gallery").click();
-        return this;
+        return galleryPage;
     }
 
     administrationLogin()

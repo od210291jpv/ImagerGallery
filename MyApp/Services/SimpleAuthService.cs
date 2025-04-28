@@ -1,4 +1,5 @@
-﻿using MyApp.Infra.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using MyApp.Infra.Database;
 using MyApp.Infra.Database.Models;
 using MyApp.Services.Interfaces;
 
@@ -15,8 +16,8 @@ namespace MyApp.Services
 
         public async Task<int?> AuthenticateAsync(string username, string password)
         {
-            UserModel? user = this.databaseContext.Users.SingleOrDefault(u => u.Login == username && u.Password == password);
-            await Task.Delay(1);
+            UserModel? user = await this.databaseContext.Users.SingleOrDefaultAsync(u => u.Login == username && u.Password == password);
+            
             if (user is null) 
             {
                 return null;
