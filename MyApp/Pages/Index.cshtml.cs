@@ -23,15 +23,13 @@ public class IndexModel : PageModel
             return Redirect("/home/default");
         }
 
-        var tokenValue = this.cache.Get(int.Parse(userId));
+        string? tokenValue = (string?)this.cache.Get(int.Parse(userId));
 
-
-
-        if (tokenValue != null) 
+        if (tokenValue == null) 
         {
-            return Redirect("/Feed");
+            return Redirect("/home/default");            
         }
-
-        return Redirect("/home/default");
+        
+        return this.Page();
     }
 }

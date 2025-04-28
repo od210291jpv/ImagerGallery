@@ -157,10 +157,11 @@
                             <thead>
                                 <tr>
                                     <th style="width: 60px;">ID</th>
-                                    <th>URL Изображения</th>
-                                    <th>Alt Текст</th>
-                                    <th>Описание</th>
-                                    <th style="width: 80px;">Лайки</th>
+                                    <th>Image URL</th>
+                                    <th>Alt Text</th>
+                                    <th>Description</th>
+                                    <th style="width: 80px;">Likes</th>
+                                    <th style="width: 80px;">Hidden</th>
                                     <th>ID Публикатора</th>
                                     <th style="width: 120px;">Действия</th>
                                 </tr>
@@ -212,6 +213,36 @@
                     </form>
                 </div>
             </div>
+
+            <div class="edit-post-popup hide-popup" id="editPostPopup">
+                <h2>Редагувати пост</h2>
+                <form class="edit-post-form">
+                    <div class="form-group">
+                        <label for="editUrl">Post Id</label>
+                        <input type="text" id="fpostId" name="editUrl">
+                    </div>
+                    <div class="form-group">
+                        <label for="editUrl">URL:</label>
+                        <input type="text" id="editUrl" name="editUrl">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Опис:</label>
+                        <textarea id="editDescription" name="editDescription" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAlt">Alt (до 10 символів):</label>
+                        <input type="text" id="editAlt" name="editAlt" maxlength="10">
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="editHidden" name="editHidden">
+                        <label for="editHidden">Приховано</label>
+                    </div>
+                    <button type="submit">Зберегти зміни</button>
+                    <button type="button" onclick="closeEditPopup()">Скасувати</button>
+                </form>
+            </div>
+
+            <div class="overlay" id="popupOverlay"></div>
 
         </main>
 

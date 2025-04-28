@@ -38,6 +38,16 @@
     const addContentAlt = document.getElementById("alt");// to rename the id
     const addContentHidden = document.getElementById("hidden");
 
+    const editPopup = document.getElementById("editPostPopup");
+    const editPostUrl = document.getElementById("editUrl");
+    const editPostDescription = document.getElementById("editDescription");
+    const editPostAlt = document.getElementById("editAlt");
+    const editPostHidden = document.getElementById("editHidden");
+    const editPostForm = document.querySelector(".edit-post-form");
+    const editPostId = document.getElementById("fpostId");
+
+    const popupOverlay = document.getElementById("popupOverlay");
+
     function inactiveAllSideLinks() {
         let allLinks = document.querySelectorAll(".sidelink");
         allLinks.forEach((item) => {
@@ -175,18 +185,71 @@
         }    
     }
 
-    function createPostRow(parent, data)
+    editPostForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(`/content/edit?PostId=${+editPostId.value}&Hidden=${editPostHidden.checked}&Alt=${editPostAlt.value}&Description=${editPostDescription.value}`, {
+                method: "POST"
+            });
+
+            if (response.ok)
+            {
+                await LoadPosts();
+                alert("Done");
+            }
+        }
+        catch (error)
+        {
+            alert("An error occured, please see the console for details");
+            console.log(error);
+        }
+        finally
+        {
+            editPopup.classList.add("hide-popup");
+            editPopup.classList.remove("show-popup");
+            popupOverlay.style.display = "none";
+        }
+    });
+
+    function onEditPostPopUp(event) {
+        event.preventDefault();
+
+        if (event.target.getAttribute("title") === "Edit") {
+            editPopup.classList.remove("hide-popup");
+            editPopup.classList.add("show-popup");
+            popupOverlay.style.display = "block";
+
+            const parent = event.target.parentElement.parentElement;
+            //const postId = parent.querySelector(".postId");// add post id to the form
+            const postSource = parent.querySelector(".postSourse");
+            const postAlt = parent.querySelector(".postAlt");
+            const postDescription = parent.querySelector(".postDescription");
+            const hidden = parent.querySelector(".postHidden");
+
+            console.log(parent.querySelector(".postid").textContent);
+            editPostId.value = parent.querySelector(".postid").textContent;
+            editPostUrl.value = postSource.textContent;
+            editPostDescription.value = postDescription.textContent;
+            editPostAlt.value = postAlt.textContent;
+            editPostHidden.checked = hidden.textContent == "true" ? true : false;
+        }
+    }
+
+    function createPostRow(data)
     {
-        parent.innerHTML = `<td>${data.id}</td>
-                            <td class="text-truncate">
-                                <a href="${data.source}" target="_blank" title="${data.source}">${data.source}</a>
+        return `<tr class="contentTableItem">
+        <td class="postid">${data.id}</td>
+        <td class="text-truncate">
+        <a href="${data.source}" class="postSourse" target="_blank" title="${data.source}">${data.source}</a>
                             </td>
-                                <td class="text-truncate">${data.alt}</td>
-                                <td class="text-truncate">${data.description}</td>
+                                <td class="text-truncate postAlt">${data.alt}</td>
+                                <td class="text-truncate postDescription">${data.description}</td>
                                 <td style="text-align: center;">${data.likes}</td>
-                                <td>${data.userId}</td>
+                                <td style="text-align: center;" class="postHidden">${data.hidden}</td>
+                                <td class="postPublisherId">${data.userId}</td>
                                 <td class="actions">
-                                    <a href="/admin/posts/edit/${data.id}" class="btn btn-sm btn-edit" title="Редактировать">
+                                    <a href="/admin/posts/edit/${data.id}" class="btn btn-sm btn-edit" title="Edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" /> <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" /> </svg>
                                         <span class="visually-hidden">Редактировать</span>
                                     </a>
@@ -194,8 +257,8 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" /> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" /> </svg>
                                         <span class="visually-hidden">Удалить</span>
                                     </button>
-                            </td>`;
-        return parent;
+                            </td>
+                            </tr>`;
     }
 
     async function LoadPosts()
@@ -214,16 +277,19 @@
             const result = await response.json();
 
             result.forEach((item) => {
-                const parent = document.createElement('tr');
-                postsListBody.append(createPostRow(parent, item));
-            });
+                postsListBody.innerHTML += createPostRow(item);
+            });  
+            postsListBody.addEventListener("click", (event) => onEditPostPopUp(event));
         }
         catch (error)
         {
             console.log(error);
             alert("An error occured, please see consloe");
             const emptyresults = document.getElementById("no-posts-row");
-            emptyresults.display = "block";
+            if (emptyresults)
+            {
+                emptyresults.display = "block";
+            }            
         }
     }
 
@@ -282,7 +348,7 @@
             event.target.classList.add("active");
             postsBlock.classList.add('showContentArea');
             postsBlock.classList.remove('hideContentArea');
-            LoadPosts();
+            LoadPosts();                       
         });
     }
 
@@ -308,4 +374,6 @@
     userListBlock.classList.add('showContentArea');
     userListBlock.classList.remove('hideContentArea');
     loadUsers();
+
+    
 });

@@ -5,4 +5,5 @@ cypress/.vs/
 /MyApp/wwwroot/Img/*.jpeg
 /MyApp/wwwroot/Img/*.png
 /MyApp/bin/
-/MyApp/obj/
+/MyApp/obj
+/MyApp/obj/*
