@@ -24,6 +24,19 @@ export class Navigation {
         cy.contains("Privacy").click();
         return this;
     }
+
+    login(login, password)
+    {
+        cy.visit("/");
+
+        const loginInput = cy.get("#login");
+        const passwordInput = cy.get("#password");
+        const loginForm = cy.get("#loginForm");
+
+        loginInput.click().type(login);
+        passwordInput.click().type(password);
+        loginForm.submit();
+    }
 }
 
 export const onNavigation = new Navigation();

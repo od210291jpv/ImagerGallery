@@ -221,7 +221,6 @@
             popupOverlay.style.display = "block";
 
             const parent = event.target.parentElement.parentElement;
-            //const postId = parent.querySelector(".postId");// add post id to the form
             const postSource = parent.querySelector(".postSourse");
             const postAlt = parent.querySelector(".postAlt");
             const postDescription = parent.querySelector(".postDescription");
@@ -238,32 +237,32 @@
 
     function createPostRow(data)
     {
-        return `<tr class="contentTableItem">
+        return `
+        <tr class="contentTableItem">
         <td class="postid">${data.id}</td>
         <td class="text-truncate">
         <a href="${data.source}" class="postSourse" target="_blank" title="${data.source}">${data.source}</a>
-                            </td>
-                                <td class="text-truncate postAlt">${data.alt}</td>
-                                <td class="text-truncate postDescription">${data.description}</td>
-                                <td style="text-align: center;">${data.likes}</td>
-                                <td style="text-align: center;" class="postHidden">${data.hidden}</td>
-                                <td class="postPublisherId">${data.userId}</td>
-                                <td class="actions">
-                                    <a href="/admin/posts/edit/${data.id}" class="btn btn-sm btn-edit" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" /> <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" /> </svg>
-                                        <span class="visually-hidden">Редактировать</span>
-                                    </a>
-                                    <button type="button" class="btn btn-sm btn-delete" data-postid="${data.id}" data-post-description="${data.description}" title="Удалить">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" /> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" /> </svg>
-                                        <span class="visually-hidden">Удалить</span>
-                                    </button>
-                            </td>
-                            </tr>`;
+        </td>
+            <td class="text-truncate postAlt">${data.alt}</td>
+            <td class="text-truncate postDescription">${data.description}</td>
+            <td style="text-align: center;">${data.likes}</td>
+            <td style="text-align: center;" class="postHidden">${data.hidden}</td>
+            <td class="postPublisherId">${data.userId}</td>
+            <td class="actions">
+                <a href="/admin/posts/edit/${data.id}" class="btn btn-sm btn-edit" title="Edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" /> <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" /> </svg>
+                    <span class="visually-hidden">Редактировать</span>
+                </a>
+                <button type="button" class="btn btn-sm btn-delete" data-postid="${data.id}" data-post-description="${data.description}" title="Удалить">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" /> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" /> </svg>
+                    <span class="visually-hidden">Удалить</span>
+                </button>
+        </td>
+        </tr>`;
     }
 
     async function LoadPosts()
     {
-        //no-posts-row
         const rows = postsListBody.querySelectorAll('tr');
         rows.forEach((row) => {
             if (row.id != "no-posts-row") {
@@ -273,7 +272,7 @@
 
         try
         {
-            const response = await fetch("http://192.168.88.33:5198/Home/images?showHidden=true", { method: "GET" });
+            const response = await fetch("/Home/images?showHidden=true", { method: "GET" });
             const result = await response.json();
 
             result.forEach((item) => {
@@ -374,6 +373,4 @@
     userListBlock.classList.add('showContentArea');
     userListBlock.classList.remove('hideContentArea');
     loadUsers();
-
-    
 });

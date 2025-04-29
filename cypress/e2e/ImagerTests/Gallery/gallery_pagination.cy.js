@@ -7,6 +7,7 @@ describe("Check Gallery page pagination functionality", () => {
 
     beforeEach("Navigate to Gallery page", () => {
         cy.visit("/");
+        onNavigation.login("Paul01", "Password");
         onNavigation.galleryPage();
     });
 
