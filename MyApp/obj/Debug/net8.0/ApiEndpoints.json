@@ -137,6 +137,47 @@
   },
   {
     "ContainingType": "MyApp.Controllers.ContentController",
+    "Method": "UpdatePost",
+    "RelativePath": "Content/Edit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PostId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "File",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Description",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PublisherId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Hidden",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Alt",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Controllers.ContentController",
     "Method": "LikePost",
     "RelativePath": "Content/like",
     "HttpMethod": "GET",
@@ -205,11 +246,21 @@
         "Name": "showHidden",
         "Type": "System.Boolean",
         "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "MyApp.Infra.Database.Models.ContentModel[]",
+        "Type": "MyApp.Infra.DTO.Publication.PublicationDto[]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -230,6 +281,11 @@
       {
         "Name": "keyword",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "withHidden",
+        "Type": "System.Boolean",
         "IsRequired": false
       }
     ],
@@ -290,5 +346,31 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Controllers.HomeController",
+    "Method": "GetPublisherById",
+    "RelativePath": "userByid",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MyApp.Infra.DTO.Users.GetUsersResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

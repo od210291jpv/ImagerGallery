@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function getAllContent()
     {
-        let response = await axios.get("http://192.168.88.33:5198/Home/images?showHidden=true");
+        let response = await axios.get("/Home/images?showHidden=true");
         let count = 0;
         return response.data.map((i) =>
         {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const data = await apis.searchContent(event.target.value);
+            const data = await apis.searchContent(event.target.value, true);
             refreshImagesFeed(data);
         }
 

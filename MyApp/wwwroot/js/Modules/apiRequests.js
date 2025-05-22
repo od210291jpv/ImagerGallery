@@ -36,10 +36,11 @@ export class Apis{
         }
     }
 
-    async searchContent(keyword)
+    async searchContent(keyword, withHidden = false)
     {
         try {
-            const response = await fetch(`${this.searchUrl}${keyword}`,
+            let hiddenParam = withHidden == true ? "&withHidden=true" : "";
+            const response = await fetch(`${this.searchUrl}${keyword}` + hiddenParam,
                 {
                     method: "POST",
                     body: JSON.stringify({ keyword: keyword ?? ' ' })

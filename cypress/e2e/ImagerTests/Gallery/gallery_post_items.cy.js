@@ -7,6 +7,7 @@ describe("Gallery page post items checks", () => {
 
     beforeEach("Navigate to Gallery page", () => {
         cy.visit("/");
+        onNavigation.login("Paul01", "Password");
         onNavigation.galleryPage();
     });
 
@@ -14,10 +15,7 @@ describe("Gallery page post items checks", () => {
 
         cy.request("GET", "/Home/images?showHidden=true").as("allContent");
 
-        cy.get("@allContent").then(xhr => {            
-
-            cy.openGallery();
-
+        cy.get("@allContent").then(xhr => {                        
             const gallery = cy.get('#gallery');
             const allItems = gallery.children();
 

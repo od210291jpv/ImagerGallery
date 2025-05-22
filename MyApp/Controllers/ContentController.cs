@@ -33,8 +33,63 @@ namespace MyApp.Controllers
             return Ok(post);
         }
 
+        [HttpPost("Edit")]
+        public async Task<IActionResult> UpdatePost(EditPublicationrequestDto requestData) 
+        {
+            ContentModel? expectedPost = this.database.Posts.SingleOrDefault(post => post.Id == requestData.PostId);
+
+            if (expectedPost is null)             
+            {
+                return NotFound(requestData.PostId);
+            }
+
+            if (requestData.File != null) {
+                var host = HttpContext.Request.Host.ToUriComponent();
+
+                if (requestData.File == null || requestData.File.Length == 0)
+                    return NotFound("file not selected");
+
+                if (this.database.Users.SingleOrDefault(u => u.Id == requestData.PublisherId) is null)
+                {
+                    return NotFound($"{requestData.PublisherId} user not found");
+                }
+
+                var path = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/img",
+                            requestData.File.FileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await requestData.File.CopyToAsync(stream);
+                }
+
+                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/Img/{requestData.File.FileName}";
+                expectedPost.Source = new Uri(fileUrl);                
+            }
+
+            if (requestData.Description != null) 
+            {
+                expectedPost.Description = requestData.Description;
+            }
+
+            if (requestData.Alt != null) 
+            {
+                expectedPost.Alt = requestData.Alt;
+            }
+            if (requestData.Hidden != null) 
+            {
+                expectedPost.Hidden = requestData.Hidden.Value;
+            }
+            if (requestData.PublisherId != null) 
+            {
+                expectedPost.UserId = requestData.PublisherId.Value;
+            }
+
+            await this.database.SaveChangesAsync();
+            return Ok(expectedPost);
+        }
+
         [HttpPost]
-        //public async Task<IActionResult> Upload(IFormFile file, string description, int publisherId, bool hidden, string? alt)
         public async Task<IActionResult> Upload(UploadPublicationRequestDto requestData)
         {
             var host = HttpContext.Request.Host.ToUriComponent();

@@ -9,6 +9,7 @@ describe("Check Gallery page common UI items", () =>
 {
     beforeEach("Navigate to Gallery page", () => {
         cy.visit("/");
+        onNavigation.login("Paul01", "Password");
         onNavigation.galleryPage();
     })
 

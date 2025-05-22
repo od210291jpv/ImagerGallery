@@ -2,10 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
+
 using MyApp.Infra.Constants.Enums;
+
 using MyApp.Infra.Database;
 using MyApp.Infra.Database.Models;
+
 using MyApp.Infra.DTO.Login.User;
+using MyApp.Infra.DTO.Publication;
+using MyApp.Infra.DTO.Users;
+
 using MyApp.Services.Interfaces;
 
 namespace MyApp.Controllers
@@ -56,26 +62,69 @@ namespace MyApp.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<ContentModel[]> Search(string keyword)
+        public async Task<ContentModel[]> Search(string keyword, bool withHidden = false)
         {
-            ContentModel[] results = await this.database.Posts.Where(p => p.Description.Contains(keyword) && p.Hidden == false).ToArrayAsync();
+            ContentModel[] results = await this.database.Posts.Where(p => p.Description.ToLower().Contains(keyword.ToLower()) && p.Hidden == withHidden).ToArrayAsync();
             return results;
         }
 
-        [HttpGet("images")]
-        public async Task<ContentModel[]> GetAllimages(bool showHidden = false) 
+        [HttpGet("/userByid")]
+        public async Task<GetUsersResponseModel> GetPublisherById(int id) 
         {
-            ContentModel[] allImages = Array.Empty<ContentModel>();
+            var user = await this.database.Users.SingleOrDefaultAsync(u => u.Id == id);
+
+            if (user is null) {
+                return new GetUsersResponseModel();
+            }
+
+            return new GetUsersResponseModel 
+            {
+                Id = id,
+                Login = user.Login,
+                Password = "hidden",
+                Role = user.UserRole
+            };
+        }
+
+        [HttpGet("images")]
+        public async Task<PublicationDto[]> GetAllimages(bool showHidden = false, int page = 0, int pageSize = 0) 
+        {
+            List<PublicationDto> allImages = new();
+            ContentModel[] results = Array.Empty<ContentModel>();
+
+            //var all = this.database.Posts;
+            //foreach (var p in all) 
+            //{
+            //    p.Source = new Uri(p.Source.ToString().Replace("192.168.88.33", "192.168.88.39"));
+            //}
+
+            //await this.database.SaveChangesAsync();
+
             if (!showHidden)
             {
-                allImages = await this.database.Posts.OrderByDescending(i => i.Id).Where(p => p.Hidden == false).ToArrayAsync();
+                results = await this.database.Posts.OrderByDescending(i => i.Id).Where(p => p.Hidden == false).ToArrayAsync();
             }
             else 
             {
-                allImages = await this.database.Posts.OrderByDescending(i => i.Id).ToArrayAsync();
+                results = await this.database.Posts.OrderByDescending(i => i.Id).ToArrayAsync();
             }
 
-            return allImages;
+            foreach (var item in results) 
+            {
+                allImages.Add(new PublicationDto 
+                {
+                    Id = item.Id,
+                    Alt = item.Alt,
+                    Description = item.Description,
+                    Hidden = item.Hidden,
+                    Likes = item.Likes,
+                    Source = item.Source,
+                    UserId = item.UserId,
+                    Username = this.database.Users.Single(u => u.Id == item.UserId).Login
+                });
+            }
+
+            return [.. allImages];
         }
 
         [HttpPost("feedback")]

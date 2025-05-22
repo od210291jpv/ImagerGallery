@@ -29,20 +29,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function onLikeClicked(event)
     {
-        console.log("Liked this");
+
+        event.preventDefault();
+
+        const parent = event.target.parentElement.parentElement;
+
+        const publicationId = +parent.dataset.id;
+        console.log("pub id: " + publicationId);
+
+        try {
+            console.log("Sending request");
+            const response = await fetch(`/Content/like?postId=${publicationId}`, { method: "GET" });
+
+            if (response.ok) {
+                const data = await response.json();
+                event.target.parentElement.querySelector('span').textContent = data.likes;
+            }
+        }
+        catch (error)
+        {
+            console.log(error);
+            alert("An error occured, please see console");
+        }
     }
 
-    function fillFeed(data)
+    async function getPublisherInfo(userId)
+    {
+        try {
+            const response = await fetch(`/userById?id=${userId}`,
+                {
+                    method: "GET"
+                });
+
+
+            const result = await response.json();
+
+                  
+            return {
+                id: result.id,
+                login: result.login,
+                password: result.password,
+                role: result.role
+            }
+        }
+        catch (error)
+        {
+            console.log(error);
+            alert("An error occured, please see console");
+        }
+    }
+
+    async function fillFeed(data)
     {
         data.forEach(item => {
 
             let postDiv = document.createElement('div');
             postDiv.classList.add('post');
-
+           
             postDiv.innerHTML =
-                `<div class="post-image-container">
+                `<div class="post-image-container" data-id="${item.id}">
                 <img src="${item.source}" alt="${item.alt}" class="post-image">
-                    <div class="username-overlay">${item.userId}</div>
+                    <div class="username-overlay">${item.username}</div>
                     <div class="like-overlay">
                         <button class="like-icon" id="like"></button>
                         <span>${item.likes}</span>
@@ -66,12 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 post.remove();
             });
 
-            const response = await fetch(getPostsUrl, { method: "GET" });
+            const userId = +localStorage.getItem("user");
+            
+            const response = await fetch(getPostsUrl + `&userid=${userId}`, { method: "GET" });
             const resut = await response.json();
 
             if (response.ok && resut != null)
             {
-                fillFeed(resut);
+                await fillFeed(resut);
             }            
         }
         catch (error) {
@@ -96,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 post.remove();
             });
 
-            fillFeed(data);  
+            await fillFeed(data);  
         }
 
                                     

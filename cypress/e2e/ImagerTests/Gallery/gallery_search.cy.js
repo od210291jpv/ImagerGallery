@@ -1,6 +1,11 @@
+/// <reference types="cypress" />
+
+import { onNavigation } from "../../../support/page_objects/navigation"
+
 describe("Gallery page search functionality checks", () => {
     beforeEach("Navigate to Gallery page", () => {
         cy.visit("/");
+        onNavigation.login("Paul01", "Password");
         onNavigation.galleryPage();
     });
 
@@ -11,22 +16,21 @@ describe("Gallery page search functionality checks", () => {
             
         });
 
-        cy.openGallery();
         const search = cy.get("#search-input");
-        search.type("test");
+        search.type("Img");
 
         cy.get(".gallery-container")
             .find("figure")
             .should(($figure) => {
-                expect($figure).to.have.length(1)
+                expect($figure).length.to.above(0)
             });
 
-        search.clear().type('.webp');
+        search.clear().type('Drink beer on Moon');
 
         cy.get(".gallery-container")
             .find("figure")
             .should(($figure) => {
-                expect($figure).to.have.length(10);
+                expect($figure).to.have.length(1);
             });
     });
 });

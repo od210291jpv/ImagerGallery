@@ -3,7 +3,8 @@
 describe("Imager draft page UI tests", () => { // some king of test suite
     it("Open Main Page and check elements presence", () => { // specific test
         cy.visit("/");
-        cy.search("board");
+        onNavigation.login("Paul01", "Password");
+        cy.search("Img");
         const resultImage = cy.get("[data-image]");
         expect(resultImage).to.not.equal(null);
         resultImage.should('have.class', 'imgContent');
