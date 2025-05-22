@@ -246,11 +246,21 @@
         "Name": "showHidden",
         "Type": "System.Boolean",
         "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "MyApp.Infra.Database.Models.ContentModel[]",
+        "Type": "MyApp.Infra.DTO.Publication.PublicationDto[]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -271,6 +281,11 @@
       {
         "Name": "keyword",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "withHidden",
+        "Type": "System.Boolean",
         "IsRequired": false
       }
     ],
@@ -331,5 +346,31 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyApp.Controllers.HomeController",
+    "Method": "GetPublisherById",
+    "RelativePath": "userByid",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MyApp.Infra.DTO.Users.GetUsersResponseModel",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

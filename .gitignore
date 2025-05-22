@@ -7,3 +7,6 @@ cypress/.vs/
 /MyApp/bin/
 /MyApp/obj
 /MyApp/obj/*
+E2Etests/bin/*
+PlayWrightUiService/obj/*
+PlayWrightUiService/bin/*

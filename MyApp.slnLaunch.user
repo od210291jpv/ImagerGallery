@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "MyApp\\MyApp.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "E2Etests\\E2Etests.csproj",
+        "Action": "Start",
+        "DebugTarget": "E2Etests"
+      }
+    ]
+  }
+]

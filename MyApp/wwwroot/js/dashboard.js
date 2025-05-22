@@ -1,16 +1,16 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
 
+    const totalUsersEl = document.getElementById('total-users-count');
+    const totalPostsEl = document.getElementById('total-posts-count');
+    const postsTodayEl = document.getElementById('posts-today-count');
+
     setTimeout(() => {
-        const totalUsersEl = document.getElementById('total-users-count');
-        const totalPostsEl = document.getElementById('total-posts-count');
-        const postsTodayEl = document.getElementById('posts-today-count');
+
 
         if (totalUsersEl) totalUsersEl.textContent = '145'; // Заменить на реальные данные
         if (totalPostsEl) totalPostsEl.textContent = '892'; // Заменить на реальные данные
         if (postsTodayEl) postsTodayEl.textContent = '12'; // Заменить на реальные данные
     }, 500); // Небольшая задержка для имитации загрузки
-
-
 
     const regForm = document.getElementById('add-user-form');
     const login = document.getElementById("newUserLogin");
@@ -103,7 +103,9 @@
             const formData = new FormData();
             formData.append('File', file, file.name);
 
-            const response = await fetch(addContentForm.action + `?Description=${addContentDescription.value}&PublisherId=${1}&Hidden=${addContentHidden.value}&Alt=${addContentAlt.value}`, {
+            const publisherId = localStorage.getItem("user") ?? "1";
+
+            const response = await fetch(addContentForm.action + `?Description=${addContentDescription.value}&PublisherId=${publisherId}&Hidden=${addContentHidden.value}&Alt=${addContentAlt.value}`, {
                 method: "POST",
 
                 body: formData
@@ -162,7 +164,7 @@
             const emptyresults = document.getElementById("no-users-row");
             emptyresults.display = "none";
 
-            const response = await fetch('http://192.168.88.33:5198/Admin/users', {
+            const response = await fetch('/Admin/users', {
                 method: "GET",
                 headers: { "Content-Type": "application/json" }
             });
@@ -251,11 +253,11 @@
             <td class="actions">
                 <a href="/admin/posts/edit/${data.id}" class="btn btn-sm btn-edit" title="Edit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" /> <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" /> </svg>
-                    <span class="visually-hidden">Редактировать</span>
+                    <span class="visually-hidden">Edit</span>
                 </a>
                 <button type="button" class="btn btn-sm btn-delete" data-postid="${data.id}" data-post-description="${data.description}" title="Удалить">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" /> <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" /> </svg>
-                    <span class="visually-hidden">Удалить</span>
+                    <span class="visually-hidden">Delete</span>
                 </button>
         </td>
         </tr>`;
@@ -275,9 +277,14 @@
             const response = await fetch("/Home/images?showHidden=true", { method: "GET" });
             const result = await response.json();
 
-            result.forEach((item) => {
+            const arrayOfposts = Array.from(result);
+
+
+            for (const item of arrayOfposts)
+            {
                 postsListBody.innerHTML += createPostRow(item);
-            });  
+            }
+
             postsListBody.addEventListener("click", (event) => onEditPostPopUp(event));
         }
         catch (error)
