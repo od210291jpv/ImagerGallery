@@ -63,7 +63,7 @@ namespace MyApp.Controllers
                     await requestData.File.CopyToAsync(stream);
                 }
 
-                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/Img/{requestData.File.FileName}";
+                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{requestData.File.FileName}";
                 expectedPost.Source = new Uri(fileUrl);                
             }
 

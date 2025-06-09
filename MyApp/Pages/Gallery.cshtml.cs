@@ -9,7 +9,7 @@ namespace MyApp.Pages
 
         public mainModel()
         {
-            var imgs = Directory.GetFiles("../MyApp/wwwroot/Img");
+            var imgs = Directory.GetFiles("../MyApp/wwwroot/img");
             this.Images = imgs.Select(i => Path.GetFileName(i)).ToArray();
         }
 
