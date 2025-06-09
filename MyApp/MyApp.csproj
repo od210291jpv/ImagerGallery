@@ -12,7 +12,7 @@
   <ItemGroup>
     <Folder Include="Dist\" />
     <Folder Include="Helpers\" />
-    <Folder Include="wwwroot\Img\" />
+    <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\js\dist\" />
   </ItemGroup>
 
