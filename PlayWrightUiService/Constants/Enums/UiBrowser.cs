@@ -2,8 +2,8 @@
 {
     public enum UiBrowser
     {
-        Chrome,
         Chromium,
+        Chrome,
         Firefox
     }
 }

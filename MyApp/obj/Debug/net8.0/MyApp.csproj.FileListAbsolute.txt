@@ -729,3 +729,5 @@ C:\Users\Paul\Documents\Repos\Repos\ImagerGallery\ImagerGallery\MyApp\obj\Debug\
 C:\Users\Paul\Documents\Repos\Repos\ImagerGallery\ImagerGallery\MyApp\obj\Debug\net8.0\MyApp.pdb
 C:\Users\Paul\Documents\Repos\Repos\ImagerGallery\ImagerGallery\MyApp\obj\Debug\net8.0\MyApp.genruntimeconfig.cache
 C:\Users\Paul\Documents\Repos\Repos\ImagerGallery\ImagerGallery\MyApp\obj\Debug\net8.0\ref\MyApp.dll
+C:\Users\Paul\Documents\Repos\Repos\ImagerGallery\ImagerGallery\MyApp\bin\Debug\net8.0\MySqlConnector.dll
+C:\Users\Paul\Documents\Repos\Repos\ImagerGallery\ImagerGallery\MyApp\bin\Debug\net8.0\Pomelo.EntityFrameworkCore.MySql.dll
