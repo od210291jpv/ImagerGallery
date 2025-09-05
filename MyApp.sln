@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E2Etests", "E2Etests\E2Etes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayWrightUiService", "PlayWrightUiService\PlayWrightUiService.csproj", "{D1AE3FB5-0F8E-489E-AEE2-A1BF2E28E0BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaExporter", "MediaExporter\MediaExporter.csproj", "{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D1AE3FB5-0F8E-489E-AEE2-A1BF2E28E0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1AE3FB5-0F8E-489E-AEE2-A1BF2E28E0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1AE3FB5-0F8E-489E-AEE2-A1BF2E28E0BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
