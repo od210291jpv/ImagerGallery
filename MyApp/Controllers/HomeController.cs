@@ -13,6 +13,7 @@ using MyApp.Infra.DTO.Publication;
 using MyApp.Infra.DTO.Users;
 
 using MyApp.Services.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyApp.Controllers
 {
@@ -86,45 +87,41 @@ namespace MyApp.Controllers
             };
         }
 
-        [HttpGet("images")]
-        public async Task<PublicationDto[]> GetAllimages(bool showHidden = false, int page = 0, int pageSize = 0) 
+        public class PaginatedResult<T>
         {
-            List<PublicationDto> allImages = new();
-            ContentModel[] results = Array.Empty<ContentModel>();
+            public List<T> Items { get; set; }
+            public int TotalCount { get; set; }
+        }
 
-            //var all = this.database.Posts;
-            //foreach (var p in all) 
-            //{
-            //    p.Source = new Uri(p.Source.ToString().Replace("192.168.88.33", "192.168.88.39"));
-            //}
+        [HttpGet("images")]
+        public async Task<IActionResult> GetAllimages(bool showHidden = false, int page = 0, int pageSize = 0, string query = null) 
+        {
+            var imageQuery = this.database.Posts.AsQueryable();
 
-            //await this.database.SaveChangesAsync();
-
-            if (!showHidden)
+            if (!string.IsNullOrEmpty(query))
             {
-                results = await this.database.Posts.OrderByDescending(i => i.Id).Where(p => p.Hidden == false).ToArrayAsync();
-            }
-            else 
-            {
-                results = await this.database.Posts.OrderByDescending(i => i.Id).ToArrayAsync();
+                imageQuery = imageQuery.Where(i => i.Description.Contains(query) || i.Alt.Contains(query));
             }
 
-            foreach (var item in results) 
+            var totalCount = imageQuery.Count();
+            var items = imageQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var result = new PaginatedResult<PublicationDto>
             {
-                allImages.Add(new PublicationDto 
+                Items = items.Where(i => i.Hidden == showHidden).Select(i => new PublicationDto
                 {
-                    Id = item.Id,
-                    Alt = item.Alt,
-                    Description = item.Description,
-                    Hidden = item.Hidden,
-                    Likes = item.Likes,
-                    Source = item.Source,
-                    UserId = item.UserId,
-                    Username = this.database.Users.Single(u => u.Id == item.UserId).Login
-                });
-            }
-
-            return [.. allImages];
+                    Id = i.Id,
+                    Alt = i.Alt,
+                    Description = i.Description,
+                    Hidden = i.Hidden,
+                    Likes = i.Likes,
+                    Source = i.Source,
+                    UserId = i.UserId,
+                    Username = this.database.Users.Single(u => u.Id == i.UserId).Login
+                }).ToList(),
+                TotalCount = totalCount
+            };
+            return Ok(result);
         }
 
         [HttpPost("feedback")]
