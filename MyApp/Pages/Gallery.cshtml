@@ -25,6 +25,16 @@
         </form>
     </header>
 
+    <div id="image-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Закрыть изображение">&times;</button>
+            <figure>
+                <img id="modal-image" src="" alt="">
+                <figcaption id="modal-caption"></figcaption>
+            </figure>
+        </div>
+    </div>
+
     <h1>Gallery Feed</h1>
 
     <div class="gallery-container" id="gallery">
@@ -34,5 +44,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="~/js/dist/gallery.js"></script>
+
 </body>
 </html>

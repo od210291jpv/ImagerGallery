@@ -1,168 +1,161 @@
 ﻿'use strict';
-import { Apis } from "./Modules/apiRequests";
-
-const apis = new Apis();
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Элементы DOM ---
     const galleryContainer = document.getElementById('gallery');
     const paginationContainer = document.getElementById('pagination');
-    let searchInput = document.getElementById("search-input");
+    const searchInput = document.getElementById('search-input');
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalCaption = document.getElementById('modal-caption');
+    const closeModalBtn = document.querySelector('.close-modal');
 
-    const imagesPerPage = 12; 
+    // --- Состояние приложения ---
+    const state = {
+        currentPage: 1,
+        imagesPerPage: 12,
+        totalPages: 0,
+        currentQuery: '',
+    };
 
-    class ImagePost
-    {
-        constructor(url, description, alt)
-        {
-            this.url = url;
-            this.description = description;
-            this.alt = alt;
+    // --- Функции ---
+
+    /**
+     * Основная функция для получения и отображения изображений
+     * @param {number} page - Номер страницы для запроса
+     * @param {string} query - Поисковый запрос
+     */
+    async function fetchAndDisplayImages(page = 1, query = '') {
+        state.currentPage = page;
+        state.currentQuery = query;
+        galleryContainer.innerHTML = '<p>Загрузка...</p>'; // Показываем индикатор загрузки
+
+        try {
+            const params = new URLSearchParams({
+                page: state.currentPage,
+                pageSize: state.imagesPerPage,
+                query: state.currentQuery,
+            });
+
+            const response = await axios.get(`/Home/images?${params}`);
+            const { items, totalCount } = response.data;
+
+            state.totalPages = Math.ceil(totalCount / state.imagesPerPage);
+
+            renderImages(items);
+            updatePagination();
+        } catch (error) {
+            console.error('Ошибка при загрузке изображений:', error);
+            galleryContainer.innerHTML = '<p>Не удалось загрузить изображения. Попробуйте снова.</p>';
         }
     }
 
-    async function getAllContent()
-    {
-        let response = await axios.get("/Home/images?showHidden=true");
-        let count = 0;
-        return response.data.map((i) =>
-        {
-            count++;
-            return new ImagePost(i.source, i.description, i.alt);
+    /**
+     * Отрисовывает изображения в галерее
+     * @param {Array} images - Массив объектов изображений
+     */
+    function renderImages(images) {
+        galleryContainer.innerHTML = '';
+        if (images.length === 0) {
+            galleryContainer.innerHTML = '<p>Ничего не найдено.</p>';
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        images.forEach(image => {
+            const figure = document.createElement('figure');
+            figure.className = 'gallery-item';
+            // Сохраняем данные для модального окна
+            figure.dataset.imageUrl = image.source;
+            figure.dataset.description = image.description;
+
+            const img = document.createElement('img');
+            img.src = image.source;
+            img.alt = image.alt || image.description;
+            img.loading = 'lazy'; // Отложенная загрузка изображений
+
+            const figcaption = document.createElement('figcaption');
+            figcaption.className = 'image-description';
+            figcaption.textContent = image.description;
+
+            figure.append(img, figcaption);
+            fragment.appendChild(figure);
         });
+        galleryContainer.appendChild(fragment);
     }
 
-    (async () => {
+    /**
+     * Обновляет кнопки пагинации, делая их "умными"
+     */
+    function updatePagination() {
+        paginationContainer.innerHTML = '';
+        if (state.totalPages <= 1) return;
 
-        let allImages = await getAllContent();
+        // Логика для создания кнопок: << < 1 ... 5 6 7 ... 12 > >>
+        const createButton = (text, page, isDisabled = false, isActive = false) => {
+            const btn = document.createElement('button');
+            btn.className = 'page-btn';
+            btn.textContent = text;
+            btn.disabled = isDisabled;
+            if (isActive) btn.classList.add('active');
+            btn.addEventListener('click', () => fetchAndDisplayImages(page, state.currentQuery));
+            return btn;
+        };
 
-        function refreshImagesFeed(newImages) {
-            allImages = [];
-            console.log(newImages);
-            allImages = newImages.map((item) => {
-                return new ImagePost(item.source, item.description, item.alt);
-            });
+        // Кнопки "назад"
+        paginationContainer.append(createButton('<', state.currentPage - 1, state.currentPage === 1));
 
-            displayImages(currentPage);
-        }
-        
-        async function searchContent(event) {
-            if (event != null && event.target != null && event.target.value == null || event.target.value == "") {
-                return;
-            }
-
-            const data = await apis.searchContent(event.target.value, true);
-            refreshImagesFeed(data);
-        }
-
-        let currentPage = 1;
-        const totalPages = Math.ceil(allImages.length / imagesPerPage);
-
-        function displayImages(page) {
-            galleryContainer.innerHTML = '';
-            currentPage = page;
-
-            const startIndex = (page - 1) * imagesPerPage;
-            const endIndex = startIndex + imagesPerPage;
-
-            const itemsToShow = allImages.slice(startIndex, endIndex);
-
-            itemsToShow.forEach((itemData) => {
-              
-                const galleryItem = document.createElement('figure');
-                galleryItem.classList.add('gallery-item'); 
-
-
-                const img = document.createElement('img');
-                img.src = itemData.url;
-
-                img.alt = itemData.alt || itemData.description;
-                img.loading = 'lazy';
-
-
-                const figcaption = document.createElement('figcaption');
-                figcaption.classList.add('image-description'); 
-                figcaption.textContent = itemData.description;
-
-                galleryItem.appendChild(img);
-                galleryItem.appendChild(figcaption);
-                galleryItem.addEventListener("click", (event) =>
-                {
-                    event.target.parentElement.classList.toggle("zoom-in");
-                });
-
-
-                galleryContainer.appendChild(galleryItem);
-            });
-
-            updatePaginationButtons();
+        // Основные кнопки страниц (сокращенная логика для примера)
+        // В реальном проекте здесь будет более сложная логика с "..."
+        for (let i = 1; i <= state.totalPages; i++) {
+            paginationContainer.append(createButton(i, i, false, i === state.currentPage));
         }
 
-        function setupPagination() {
-            paginationContainer.style.padding = "15px";
-            paginationContainer.innerHTML = '';
+        // Кнопки "вперед"
+        paginationContainer.append(createButton('>', state.currentPage + 1, state.currentPage === state.totalPages));
+    }
 
-            const prevButton = document.createElement('button');
-            prevButton.classList.add('page-btn', 'prev-btn');
-            prevButton.textContent = '<';
-            prevButton.disabled = currentPage === 1;
-            prevButton.addEventListener('click', () => {
-                if (currentPage > 1) {
-                    displayImages(currentPage - 1);
-                }
-            });
-            paginationContainer.appendChild(prevButton);
+    /**
+     * Функция для задержки выполнения (для "умного" поиска)
+     * @param {Function} func - Функция для вызова
+     * @param {number} delay - Задержка в мс
+     */
+    function debounce(func, delay = 500) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(this, args);
+            }, delay);
+        };
+    }
 
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = document.createElement('button');
-                pageButton.classList.add('page-btn', 'page-number');
-                pageButton.textContent = i;
-                if (i === currentPage) {
-                    pageButton.classList.add('active');
-                }
-                pageButton.addEventListener('click', () => {
-                    displayImages(i);
-                });
-                paginationContainer.appendChild(pageButton);
-            }
+    // --- Обработчики событий ---
 
-            const nextButton = document.createElement('button');
-            nextButton.classList.add('page-btn', 'next-btn');
-            nextButton.textContent = '>';
-            nextButton.disabled = currentPage === totalPages;
-            nextButton.addEventListener('click', () => {
-                if (currentPage < totalPages) {
-                    displayImages(currentPage + 1);
-                }
-            });
-            paginationContainer.appendChild(nextButton);
+    const debouncedSearch = debounce((event) => {
+        fetchAndDisplayImages(1, event.target.value.trim());
+    });
+    searchInput.addEventListener('input', debouncedSearch);
+
+    // Делегирование событий для открытия модального окна
+    galleryContainer.addEventListener('click', (event) => {
+        const item = event.target.closest('.gallery-item');
+        if (item) {
+            modalImage.src = item.dataset.imageUrl;
+            modalCaption.textContent = item.dataset.description;
+            modal.classList.add('visible');
         }
+    });
 
-        function updatePaginationButtons() {
-            const pageButtons = paginationContainer.querySelectorAll('.page-number');
-            const prevButton = paginationContainer.querySelector('.prev-btn');
-            const nextButton = paginationContainer.querySelector('.next-btn');
-
-            if (prevButton) prevButton.disabled = currentPage === 1;
-            if (nextButton) nextButton.disabled = currentPage === totalPages;
-
-            pageButtons.forEach(button => {
-                if (parseInt(button.textContent) === currentPage) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
+    // Закрытие модального окна
+    closeModalBtn.addEventListener('click', () => modal.classList.remove('visible'));
+    modal.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (event.target != modal) { // Закрытие по клику на фон
+            modal.classList.remove('visible');
         }
-        
-        searchInput?.addEventListener("input", (event) => searchContent(event));
+    });
 
-        if (allImages.length > 0) {
-            displayImages(currentPage);
-            if (totalPages > 1) {
-                setupPagination();
-            }
-        } else {
-            galleryContainer.innerHTML = '<p>Нет изображений для отображения.</p>';
-        }
-    })();
+    // --- Инициализация ---
+    fetchAndDisplayImages(state.currentPage, state.currentQuery);
 });
