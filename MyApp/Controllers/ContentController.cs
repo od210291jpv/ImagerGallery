@@ -120,7 +120,9 @@ namespace MyApp.Controllers
                 return NotFound($"{requestData.PublisherId} user not found");
             }
 
-            var path = Path.Combine(
+            var isNotUnique = await this.database.Posts.AnyAsync(p => p.Source == new Uri($"{HttpContext.Request.Scheme}://{host}/img/{requestData.File.FileName}"));
+
+            string path = Path.Combine(
                         Directory.GetCurrentDirectory(), "wwwroot/img",
                         requestData.File.FileName);
 
@@ -129,7 +131,8 @@ namespace MyApp.Controllers
                 await requestData.File.CopyToAsync(stream);
             }
 
-            string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{requestData.File.FileName}";
+            string prefix = isNotUnique ? Guid.NewGuid().ToString().Replace("-", "") : "";
+            string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{prefix}{requestData.File.FileName}";
 
             ContentModel model = new ContentModel
             {
