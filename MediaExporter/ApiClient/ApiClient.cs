@@ -28,5 +28,13 @@ namespace MediaExporter.ApiClient
 
             return responses.ToArray();
         }
+
+        public async Task<HttpStatusCode> PushToRedis(int limit) 
+        {
+            RestSharp.RestClient client = new RestSharp.RestClient(configureSerialization: s => s.UseNewtonsoftJson());
+            RestSharp.RestRequest request = new RestSharp.RestRequest(UriHelper.PushToRedis(limit), Method.Get);
+            RestResponse response = await client.ExecuteAsync(request);
+            return response.StatusCode;
+        }
     }
 }
