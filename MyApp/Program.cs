@@ -5,7 +5,6 @@ using MyApp.Services;
 using MyApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
@@ -19,7 +18,7 @@ builder.Services.AddScoped<ITokenService, SimpleTokenService>();
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 WebApplication app = builder.Build();
 

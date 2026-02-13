@@ -1,161 +1,164 @@
 ﻿'use strict';
-
-import { Apis } from "./Modules/apiRequests";
-
-const apis = new Apis();
+// Убираем импорт Apis, так как логика будет встроена здесь
+// import { Apis } from "./Modules/apiRequests";
 
 document.addEventListener('DOMContentLoaded', () => {
-
+    // --- Элементы DOM ---
     const feedWrapper = document.getElementById("feed-wrapper");
-    const getPostsUrl = '/Home/images?showHidden=false';
-
     const jumpToStartBtn = document.getElementById('jumpToStartBtn');
     const searchInput = document.getElementById("search-input");
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            jumpToStartBtn.classList.add('visible');
-        } else {
-            jumpToStartBtn.classList.remove('visible');
+    // --- Состояние приложения ---
+    const state = {
+        currentPage: 1,
+        pageSize: 10, // Сколько постов загружать за раз
+        totalPages: 1,
+        isLoading: false, // Флаг для предотвращения двойных запросов
+        currentQuery: ''
+    };
+
+    // --- Функции ---
+
+    /**
+     * Основная функция для получения постов с сервера.
+     * @param {boolean} isNewSearch - Если true, очищает ленту перед загрузкой (для нового поиска).
+     */
+    async function fetchPosts(isNewSearch = false) {
+        if (state.isLoading || state.currentPage > state.totalPages) {
+            return; // Не загружаем, если уже идет загрузка или страницы закончились
         }
-    });
+        state.isLoading = true;
 
-    jumpToStartBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    async function onLikeClicked(event)
-    {
-
-        event.preventDefault();
-
-        const parent = event.target.parentElement.parentElement;
-
-        const publicationId = +parent.dataset.id;
-        console.log("pub id: " + publicationId);
+        if (isNewSearch) {
+            feedWrapper.innerHTML = ''; // Очищаем ленту для нового поиска
+            state.currentPage = 1;
+        }
 
         try {
-            console.log("Sending request");
-            const response = await fetch(`/Content/like?postId=${publicationId}`, { method: "GET" });
-
-            if (response.ok) {
-                const data = await response.json();
-                event.target.parentElement.querySelector('span').textContent = data.likes;
-            }
-        }
-        catch (error)
-        {
-            console.log(error);
-            alert("An error occured, please see console");
-        }
-    }
-
-    async function getPublisherInfo(userId)
-    {
-        try {
-            const response = await fetch(`/userById?id=${userId}`,
-                {
-                    method: "GET"
-                });
-
-
-            const result = await response.json();
-
-                  
-            return {
-                id: result.id,
-                login: result.login,
-                password: result.password,
-                role: result.role
-            }
-        }
-        catch (error)
-        {
-            console.log(error);
-            alert("An error occured, please see console");
-        }
-    }
-
-    async function fillFeed(data)
-    {
-        data.forEach(item => {
-
-            let postDiv = document.createElement('div');
-            postDiv.classList.add('post');
-           
-            postDiv.innerHTML =
-                `<div class="post-image-container" data-id="${item.id}">
-                <img src="${item.source}" alt="${item.alt}" class="post-image">
-                    <div class="username-overlay">${item.username}</div>
-                    <div class="like-overlay">
-                        <button class="like-icon" id="like"></button>
-                        <span>${item.likes}</span>
-                    </div>
-                </div>
-                <div class="post-description">
-                    ${item.description}
-                </div>`;
-            postDiv.querySelector('#like').addEventListener('click', event => onLikeClicked(event));
-
-            feedWrapper.append(postDiv);
-        });
-    }
-
-    async function refreshFeed()
-    {
-        try {
-            const posts = feedWrapper.querySelectorAll('.post');
-
-            posts.forEach((post) => {
-                post.remove();
+            const params = new URLSearchParams({
+                page: state.currentPage,
+                pageSize: state.pageSize,
+                query: state.currentQuery,
+                showHidden: false
             });
 
-            const userId = +localStorage.getItem("user");
-            
-            const response = await fetch(getPostsUrl + `&userid=${userId}`, { method: "GET" });
-            const resut = await response.json();
+            const response = await fetch(`/Home/images?${params}`);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-            if (response.ok && resut != null)
-            {
-                await fillFeed(resut);
-            }            
-        }
-        catch (error) {
-            console.log(error);
-            alert("An error occured, plase see console log");
+            const { items, totalCount } = await response.json();
+
+            state.totalPages = Math.ceil(totalCount / state.pageSize);
+            renderPosts(items);
+
+            state.currentPage++; // Увеличиваем номер страницы для следующего запроса
+        } catch (error) {
+            console.error("Ошибка при загрузке постов:", error);
+            feedWrapper.innerHTML += '<p class="error-message">Не удалось загрузить посты.</p>';
+        } finally {
+            state.isLoading = false;
         }
     }
-    
 
-    async function searchContent(event) {
-        if (event != null && event.target != null && event.target.value == null || event.target.value == "") {
+    /**
+     * Отрисовывает посты в ленте.
+     * @param {Array} posts - Массив объектов постов.
+     */
+    function renderPosts(posts) {
+        if (posts.length === 0 && state.currentPage === 1) {
+            feedWrapper.innerHTML = '<p>Ничего не найдено.</p>';
             return;
         }
 
-        const data = await apis.searchContent(event.target.value);
+        const fragment = document.createDocumentFragment();
+        posts.forEach(post => {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            // Используем data-id на основном элементе поста
+            postDiv.dataset.id = post.id;
 
-        if (data != null)
-        {
-            const posts = feedWrapper.querySelectorAll('.post');
-
-            posts.forEach((post) => {
-                post.remove();
-            });
-
-            await fillFeed(data);  
-        }
-
-                                    
+            // ВАЖНО: Ваш API должен возвращать `username` вместе с данными поста
+            postDiv.innerHTML = `
+                <div class="post-image-container">
+                    <img src="${post.source}" alt="${post.alt}" class="post-image">
+                    <div class="username-overlay">${post.username || 'Автор'}</div>
+                    <div class="like-overlay">
+                        <button class="like-icon"></button>
+                        <span>${post.likes}</span>
+                    </div>
+                </div>
+                <div class="post-description">${post.description}</div>`;
+            fragment.appendChild(postDiv);
+        });
+        feedWrapper.appendChild(fragment);
     }
 
-    searchInput.addEventListener('input', (event) => searchContent(event));
+    /**
+     * Обрабатывает клик по иконке "лайк".
+     * @param {HTMLElement} likeButton - Кнопка, по которой кликнули.
+     */
+    async function handleLikeClick(likeButton) {
+        const postElement = likeButton.closest('.post');
+        const postId = postElement.dataset.id;
 
-    
+        try {
+            const response = await fetch(`/Content/like?postId=${postId}`);
+            if (response.ok) {
+                const data = await response.json();
+                // Обновляем счетчик лайков
+                likeButton.nextElementSibling.textContent = data.likes;
+            } else {
+                console.error("Ошибка при попытке поставить лайк");
+            }
+        } catch (error) {
+            console.error("Сетевая ошибка при лайке:", error);
+        }
+    }
 
-    (async function () {
-        await refreshFeed();
-    }());
+    /**
+     * Функция для задержки выполнения (для "умного" поиска).
+     */
+    function debounce(func, delay = 500) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => { func.apply(this, args); }, delay);
+        };
+    }
+
+    // --- Обработчики событий ---
+
+    // Бесконечная прокрутка
+    window.addEventListener('scroll', () => {
+        // Показываем/скрываем кнопку "Наверх"
+        jumpToStartBtn.classList.toggle('visible', window.scrollY > 300);
+
+        // Логика подгрузки контента
+        const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+        if (clientHeight + scrollTop >= scrollHeight - 200) { // 200px - буфер
+            fetchPosts();
+        }
+    });
+
+    // Кнопка "Наверх"
+    jumpToStartBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Делегирование событий для лайков
+    feedWrapper.addEventListener('click', (event) => {
+        const likeButton = event.target.closest('.like-icon');
+        if (likeButton) {
+            handleLikeClick(likeButton);
+        }
+    });
+
+    // Поиск с задержкой
+    const debouncedSearch = debounce((event) => {
+        state.currentQuery = event.target.value.trim();
+        fetchPosts(true); // true - означает, что это новый поиск
+    });
+    searchInput.addEventListener('input', debouncedSearch);
+
+    // --- Инициализация ---
+    fetchPosts(); // Загружаем первую партию постов при загрузке страницы
 });

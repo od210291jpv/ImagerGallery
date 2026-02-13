@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyApp.Infra.Database;
 using MyApp.Infra.Database.Models;
 using MyApp.Infra.DTO.Publication;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace MyApp.Controllers
 {
@@ -63,7 +65,7 @@ namespace MyApp.Controllers
                     await requestData.File.CopyToAsync(stream);
                 }
 
-                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/Img/{requestData.File.FileName}";
+                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{requestData.File.FileName}";
                 expectedPost.Source = new Uri(fileUrl);                
             }
 
@@ -89,6 +91,22 @@ namespace MyApp.Controllers
             return Ok(expectedPost);
         }
 
+        [HttpGet("PushAllContentToRedis")]
+        public async Task<IActionResult> PushAllContentToRedis(int take) 
+        {
+            var redis = ConnectionMultiplexer.Connect("192.168.88.252:6379");// fix, get from config
+            var redisDb = redis.GetDatabase(2);
+
+            var allContent = await this.database.Posts.OrderByDescending(p => p.Id).Take(take).ToArrayAsync();
+
+            foreach (ContentModel? rl in allContent) 
+            {
+                await redisDb.StringSetAsync(Guid.NewGuid().ToString(), rl.Source.ToString());
+            }
+
+            return Ok("All content pushed to Redis successfully.");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Upload(UploadPublicationRequestDto requestData)
         {
@@ -102,7 +120,9 @@ namespace MyApp.Controllers
                 return NotFound($"{requestData.PublisherId} user not found");
             }
 
-            var path = Path.Combine(
+            var isNotUnique = await this.database.Posts.AnyAsync(p => p.Source == new Uri($"{HttpContext.Request.Scheme}://{host}/img/{requestData.File.FileName}"));
+
+            string path = Path.Combine(
                         Directory.GetCurrentDirectory(), "wwwroot/img",
                         requestData.File.FileName);
 
@@ -111,7 +131,8 @@ namespace MyApp.Controllers
                 await requestData.File.CopyToAsync(stream);
             }
 
-            string fileUrl = $"{HttpContext.Request.Scheme}://{host}/Img/{requestData.File.FileName}";
+            string prefix = isNotUnique ? Guid.NewGuid().ToString().Replace("-", "") : "";
+            string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{prefix}{requestData.File.FileName}";
 
             ContentModel model = new ContentModel
             {
