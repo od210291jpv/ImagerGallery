@@ -8,16 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById("loginForm");
     const loginInput = document.getElementById("login");
     const passwordInput = document.getElementById("password");
+    
 
     loginForm.addEventListener("submit", async (event) =>
     {
         event.preventDefault();
-
+        
+        console.log("Login event");
         try {
             const result = await apis.login(loginInput.value, passwordInput.value);
-
             if (result.userId != null)
             {
+                console.log("userid is not null");
+                sessionStorage.setItem("userLogin", loginInput.value);
                 loginForm.reset();
                 localStorage.setItem(result.userId, result.token);
                 localStorage.setItem("user", result.userId);

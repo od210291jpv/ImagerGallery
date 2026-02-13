@@ -8,8 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const jumpToStartBtn = document.getElementById('jumpToStartBtn');
     const searchInput = document.getElementById("search-input");
 
+    let userNamelabel = document.getElementById("profile-username");
+    userNamelabel.textContent = sessionStorage.getItem("userLogin") || "Guest";
+
     // --- Состояние приложения ---
     const state = {
+        initialized: false,
         currentPage: 1,
         pageSize: 10, // Сколько постов загружать за раз
         totalPages: 1,
@@ -39,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 page: state.currentPage,
                 pageSize: state.pageSize,
                 query: state.currentQuery,
-                showHidden: false
+                doNotShowHidden: false
             });
 
             const response = await fetch(`/Home/images?${params}`);
@@ -47,10 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const { items, totalCount } = await response.json();
 
-            state.totalPages = Math.ceil(totalCount / state.pageSize);
-            renderPosts(items);
+            if (!state.initialized)
+            {
+                state.totalPages = Math.ceil(totalCount / state.pageSize);
+                state.currentPage = state.totalPages;
+                state.initialized = true;
+            }
 
-            state.currentPage++; // Увеличиваем номер страницы для следующего запроса
+
+            if (state.initialized)
+            {
+                renderPosts(items);
+                state.currentPage--;
+            }
+
         } catch (error) {
             console.error("Ошибка при загрузке постов:", error);
             feedWrapper.innerHTML += '<p class="error-message">Не удалось загрузить посты.</p>';

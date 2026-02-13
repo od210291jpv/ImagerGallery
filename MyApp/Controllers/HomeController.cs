@@ -94,7 +94,7 @@ namespace MyApp.Controllers
         }
 
         [HttpGet("images")]
-        public async Task<IActionResult> GetAllimages(bool showHidden = false, int page = 0, int pageSize = 0, string query = null) 
+        public async Task<IActionResult> GetAllimages(bool doNotShowHidden = false, int page = 0, int pageSize = 0, string query = null) 
         {
             var imageQuery = this.database.Posts.AsQueryable();
 
@@ -108,7 +108,7 @@ namespace MyApp.Controllers
 
             var result = new PaginatedResult<PublicationDto>
             {
-                Items = items.Where(i => i.Hidden == showHidden).Select(i => new PublicationDto
+                Items = items.Where(i => i.Hidden == doNotShowHidden).Select(i => new PublicationDto
                 {
                     Id = i.Id,
                     Alt = i.Alt,
