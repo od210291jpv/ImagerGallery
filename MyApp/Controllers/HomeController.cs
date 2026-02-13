@@ -96,6 +96,11 @@ namespace MyApp.Controllers
         [HttpGet("images")]
         public async Task<IActionResult> GetAllimages(bool doNotShowHidden = false, int page = 0, int pageSize = 0, string query = null) 
         {
+            if (page <= 0) 
+            {
+                page = 1;
+            }
+
             var imageQuery = this.database.Posts.AsQueryable();
 
             if (!string.IsNullOrEmpty(query))

@@ -7,8 +7,8 @@
     setTimeout(() => {
 
 
-        if (totalUsersEl) totalUsersEl.textContent = '145'; // Заменить на реальные данные
-        if (totalPostsEl) totalPostsEl.textContent = '892'; // Заменить на реальные данные
+        if (totalUsersEl) totalUsersEl.textContent = '0'; // Заменить на реальные данные
+        if (totalPostsEl) totalPostsEl.textContent = '0'; // Заменить на реальные данные
         if (postsTodayEl) postsTodayEl.textContent = '12'; // Заменить на реальные данные
     }, 500); // Небольшая задержка для имитации загрузки
 
@@ -113,6 +113,7 @@
 
             if (response.ok && result != null) {
 
+                totalPostsEl.textContent = +totalPostsEl.textContent + 1;
                 alert("Content was sussessfully added!");
             }
         }
@@ -227,8 +228,6 @@
         }
     });
 
-
-
     function createPostRow(data) {
         const tr = document.createElement('tr');
         // Сохраняем все данные прямо в элементе <tr>. Это надежно и удобно.
@@ -261,17 +260,18 @@
         return tr;
     }
 
-    async function LoadPosts() {
+    async function LoadPosts(page = 1, pageSize = 10000) {
         const postsListBody = document.getElementById('post-list-body');
         const noPostsRow = document.getElementById("no-posts-row");
 
         try {
-            const response = await fetch("/Home/images?showHidden=true", { method: "GET" });
+            const response = await fetch(`/Home/images?doNotShowHidden=false&page=${page}&pageSize=${pageSize}`, { method: "GET" });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const posts = await response.json();
-
+            const postsObject = await response.json();
+            
+            const posts = postsObject.items; // Предполагаем, что API возвращает объект с массивом постов в свойстве "items"
             // 1. Эффективная очистка таблицы
             postsListBody.innerHTML = '';
 
@@ -286,6 +286,8 @@
 
                 // 3. Вставляем все строки за одну операцию
                 postsListBody.appendChild(fragment);
+
+                totalPostsEl.textContent = postsObject.totalCount; // Обновляем счетчик постов
             } else {
                 if (noPostsRow) noPostsRow.style.display = 'table-row';
             }
@@ -297,6 +299,9 @@
                 noPostsRow.style.display = 'table-row';
             }
         }
+        //finally {
+        //    return posts.length ?? 0;
+        //}
     }
 
     const postsListBody = document.getElementById("post-list-body");

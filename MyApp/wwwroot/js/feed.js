@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.isLoading || state.currentPage > state.totalPages) {
             return; // Не загружаем, если уже идет загрузка или страницы закончились
         }
+
+        if (state.currentPage <= 0)
+        {
+            return;
+        }
+
         state.isLoading = true;
 
         if (isNewSearch) {
@@ -58,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 state.initialized = true;
             }
 
-
+            console.log("ppages" + state.totalPages);
             if (state.initialized)
             {
                 renderPosts(items);
