@@ -1,0 +1,197 @@
+﻿@page "/parser"
+@model MyApp.Pages.pasrerModel
+@{
+    ViewData["Title"] = "Image URL Parser";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Parser Tool</title>
+    <link rel="stylesheet" href="~/css/Style.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .page_container {
+            margin: auto;
+            width: 100%; /* Примерная ширина ленты */
+            display: flex;
+            flex-direction: column;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            gap: 20px; /* Расстояние между постами */
+        }
+
+        .navbar
+        {
+            display: none;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-weight: 600;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="url"], select {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="url"] {
+            flex-grow: 1;
+        }
+
+            input[type="url"]:focus, select:focus {
+                border-color: var(--primary-color);
+            }
+
+        button {
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s;
+            border: none;
+            padding: 10px 20px;
+        }
+
+        .btn-parse {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+            .btn-parse:hover {
+                background-color: var(--primary-hover);
+            }
+
+        /* Results Section */
+        .results-header {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .results-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            gap: 15px;
+        }
+
+        .image-link {
+            flex-grow: 1;
+            font-size: 13px;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-preview {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+        }
+
+            .btn-preview:hover {
+                background-color: #e2e8f0;
+            }
+
+        .btn-add {
+            background-color: #10b981;
+            color: white;
+        }
+
+            .btn-add:hover {
+                background-color: #059669;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="page_container">
+        <h2>Image URL Parser</h2>
+
+        <div class="input-group">
+            <input type="url" placeholder="https://example.com/gallery" id="urlInput">
+
+            <div class="control-row">
+                <select id="parserSelect" style="flex-grow: 1;">
+                    <option value="generic">FPZ JS Parser</option>
+                </select>
+                <button class="btn-parse" id="submitParse">Parse URL</button>
+            </div>
+        </div>
+
+        <span class="results-header">Parsed Results</span>
+
+        <ul class="results-list">
+            <li class="result-item">
+                <a href="#" class="image-link">https://images.unsplash.com/photo-12345678.jpg</a>
+                <div class="action-buttons">
+                    <button class="btn-preview">Preview</button>
+                    <button class="btn-add">Add</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script type="module" src="~/js/dist/parser.js"></script>
+</body>
+</html>
