@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.2.11430.68 d18.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp", "MyApp\MyApp.csproj", "{4887596F-EF68-4A02-9C24-305962CDA26A}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayWrightUiService", "PlayWrightUiService\PlayWrightUiService.csproj", "{D1AE3FB5-0F8E-489E-AEE2-A1BF2E28E0BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaExporter", "MediaExporter\MediaExporter.csproj", "{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FpzParser", "FpzParser\FpzParser.csproj", "{6DE55FDC-A207-457C-B6A9-A4F5C4C9FC7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{062DD4B5-AAA0-4F4C-97C0-B0EB6FDE74A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DE55FDC-A207-457C-B6A9-A4F5C4C9FC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DE55FDC-A207-457C-B6A9-A4F5C4C9FC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DE55FDC-A207-457C-B6A9-A4F5C4C9FC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DE55FDC-A207-457C-B6A9-A4F5C4C9FC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

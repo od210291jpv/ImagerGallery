@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Flurl.Http;
+using FpzParser.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyApp.Infra.Database;
 using MyApp.Infra.Database.Models;
@@ -13,10 +15,12 @@ namespace MyApp.Controllers
     public class ContentController : Controller
     {
         private ApplicationContext database;
+        private IContentParser parser;
 
-        public ContentController(ApplicationContext db)
+        public ContentController(ApplicationContext db, IContentParser parser)
         {
             this.database = db;
+            this.parser = parser;
         }
 
         [HttpGet("like")]
@@ -152,6 +156,42 @@ namespace MyApp.Controllers
             }
 
             return Accepted(serialized);
+        }
+
+        [HttpGet("ParseByLink")]
+        public async Task<IActionResult> ParseByLink(string contentLink) 
+        {
+            var url = this.parser.Parse(contentLink);
+            if (url != string.Empty) 
+            {
+                var host = HttpContext.Request.Host.ToUriComponent();
+
+                string path = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/img",
+                            url.Split("/").Last());
+
+                var fileName = await url
+                    .WithHeader("User-Agent", "MyApp")
+                    .DownloadFileAsync(Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot/img"));
+              
+                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{url.Split("/").Last()}";
+
+                ContentModel model = new ContentModel
+                {
+                    Alt = "parsed",
+                    Description = "parsed",
+                    Source = new Uri(fileUrl),
+                    UserId = 1,
+                    Hidden = false,
+                };
+
+                string serialized = JsonConvert.SerializeObject(model);
+                await this.database.Posts.AddAsync(model);
+                await this.database.SaveChangesAsync();
+                return Ok(url);
+            }
+            return BadRequest("The content link is not valid or the content cannot be parsed.");
         }
     }
 }
