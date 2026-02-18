@@ -1,5 +1,5 @@
-﻿using HtmlAgilityPack;
-using RestSharp;
+﻿using RestSharp;
+using HtmlAgilityPack;
 
 namespace FpzParser
 {
