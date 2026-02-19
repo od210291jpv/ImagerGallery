@@ -2,6 +2,6 @@
 {
     public interface IContentParser
     {
-        public string Parse(string contentLink);
+        public Task<string> Parse(string contentLink);
     }
 }

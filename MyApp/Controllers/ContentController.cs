@@ -161,7 +161,8 @@ namespace MyApp.Controllers
         [HttpGet("ParseByLink")]
         public async Task<IActionResult> ParseByLink(string contentLink) 
         {
-            var url = this.parser.Parse(contentLink);
+            //var url = await this.parser.Parse(contentLink);
+            var url = contentLink;
             if (url != string.Empty) 
             {
                 var host = HttpContext.Request.Host.ToUriComponent();

@@ -5,13 +5,11 @@ namespace FpzParser
 {
     public class FpzParser : Interfaces.IContentParser
     {
-        public string Parse(string contentLink)
+        public async Task<string> Parse(string contentLink)
         {
             RestClient client = new RestClient();
 
-
-
-            var content = client.ExecuteGet(new RestRequest(contentLink, Method.Get));
+            var content = await client.ExecuteGetAsync(new RestRequest(contentLink, Method.Get));
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(content.Content ?? "");
