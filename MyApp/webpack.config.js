@@ -6,6 +6,7 @@ module.exports = {
         gallery: "./wwwroot/js/gallery.js",
         login: "./wwwroot/js/userlogin.js",
         register: "./wwwroot/js/register.js",
+        parser: "./wwwroot/js/parser.js",
     },
     output: {
         filename: '[name].js',

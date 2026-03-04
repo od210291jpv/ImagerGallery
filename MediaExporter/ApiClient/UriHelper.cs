@@ -11,5 +11,10 @@
         {
             return $"http://192.168.88.252:8080/Content/PushAllContentToRedis?take={limit}";
         }
+
+        public static string SendMediaToPersistence() 
+        {
+            return "http://192.168.88.98/api/upload";
+        }
     }
 }

@@ -94,8 +94,13 @@ namespace MyApp.Controllers
         }
 
         [HttpGet("images")]
-        public async Task<IActionResult> GetAllimages(bool showHidden = false, int page = 0, int pageSize = 0, string query = null) 
+        public async Task<IActionResult> GetAllimages(bool doNotShowHidden = false, int page = 0, int pageSize = 0, string query = null) 
         {
+            if (page <= 0) 
+            {
+                page = 1;
+            }
+
             var imageQuery = this.database.Posts.AsQueryable();
 
             if (!string.IsNullOrEmpty(query))
@@ -103,12 +108,12 @@ namespace MyApp.Controllers
                 imageQuery = imageQuery.Where(i => i.Description.Contains(query) || i.Alt.Contains(query));
             }
 
-            var totalCount = imageQuery.Count();
+            int totalCount = imageQuery.Count();
             var items = imageQuery.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             var result = new PaginatedResult<PublicationDto>
             {
-                Items = items.Where(i => i.Hidden == showHidden).Select(i => new PublicationDto
+                Items = items.Where(i => i.Hidden == doNotShowHidden).Select(i => new PublicationDto
                 {
                     Id = i.Id,
                     Alt = i.Alt,
