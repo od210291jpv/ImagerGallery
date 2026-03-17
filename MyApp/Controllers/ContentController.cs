@@ -16,11 +16,14 @@ namespace MyApp.Controllers
     {
         private ApplicationContext database;
         private IContentParser parser;
+        private IDatabase redisDb;
 
         public ContentController(ApplicationContext db, IContentParser parser)
         {
             this.database = db;
             this.parser = parser;
+            var redis = ConnectionMultiplexer.Connect("192.168.88.252:6379");
+            this.redisDb = redis.GetDatabase(2);
         }
 
         [HttpGet("like")]
@@ -190,6 +193,7 @@ namespace MyApp.Controllers
                 string serialized = JsonConvert.SerializeObject(model);
                 await this.database.Posts.AddAsync(model);
                 await this.database.SaveChangesAsync();
+                await this.redisDb.StringSetAsync(Guid.NewGuid().ToString(), fileUrl);
                 return Ok(url);
             }
             return BadRequest("The content link is not valid or the content cannot be parsed.");
