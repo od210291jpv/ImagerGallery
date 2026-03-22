@@ -108,7 +108,7 @@ namespace MyApp.Controllers
 
             foreach (ContentModel? rl in allContent) 
             {
-                await redisDb.StringSetAsync(Guid.NewGuid().ToString(), rl.Source.ToString());
+                await redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", rl.Source.ToString());
             }
 
             return Ok("All content pushed to Redis successfully.");
@@ -193,7 +193,7 @@ namespace MyApp.Controllers
                 string serialized = JsonConvert.SerializeObject(model);
                 await this.database.Posts.AddAsync(model);
                 await this.database.SaveChangesAsync();
-                await this.redisDb.StringSetAsync(Guid.NewGuid().ToString(), fileUrl);
+                await this.redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", fileUrl);
                 return Ok(url);
             }
             return BadRequest("The content link is not valid or the content cannot be parsed.");
