@@ -1,4 +1,7 @@
-﻿using Flurl.Http;
+﻿using CanvasFlow.Api.Services.CmsApi;
+using CanvasFlow.Api.Services.CmsApi.Models;
+using Flurl.Http;
+using Flurl.Http.Content;
 using FpzParser.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +10,7 @@ using MyApp.Infra.Database.Models;
 using MyApp.Infra.DTO.Publication;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using ContentModel = MyApp.Infra.Database.Models.ContentModel;
 
 namespace MyApp.Controllers
 {
@@ -14,32 +18,20 @@ namespace MyApp.Controllers
     [Route("[controller]")]
     public class ContentController : Controller
     {
-        private ApplicationContext database;
+        //private ApplicationContext database;
         private IContentParser parser;
         private IDatabase redisDb;
+        private ApplicationContext database;
+        private CmsApiClient _cmsApiClient = new CmsApiClient(new HttpClient(), "http://192.168.88.68:8085");
+        private const string CmsUsername = "SaverMaui";
+        private const string CmsPassword = "password";
 
         public ContentController(ApplicationContext db, IContentParser parser)
         {
-            this.database = db;
+            //this.database = db;
             this.parser = parser;
             var redis = ConnectionMultiplexer.Connect("192.168.88.252:6379");
             this.redisDb = redis.GetDatabase(2);
-        }
-
-        [HttpGet("like")]
-        public async Task<IActionResult> LikePost(int postId) 
-        {
-            ContentModel? post = this.database.Posts.SingleOrDefault(p => p.Id == postId);
-
-
-            if (post is null) 
-            {
-                return NotFound($"The post with id {postId} not found");
-            }
-
-            post.Likes += 1;
-            await this.database.SaveChangesAsync();
-            return Ok(post);
         }
 
         [HttpPost("Edit")]
@@ -104,11 +96,22 @@ namespace MyApp.Controllers
             var redis = ConnectionMultiplexer.Connect("192.168.88.252:6379");// fix, get from config
             var redisDb = redis.GetDatabase(2);
 
-            var allContent = await this.database.Posts.OrderByDescending(p => p.Id).Take(take).ToArrayAsync();
-
-            foreach (ContentModel? rl in allContent) 
+            CmsLoginResponseDto cmsUser;
+            try
             {
-                await redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", rl.Source.ToString());
+                cmsUser = await _cmsApiClient.LoginAsync(CmsUsername, CmsPassword);
+
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized(new { error = $"Failed to login to CMS API: {e.Message}" });
+            }
+
+            ContentObjectDtoPagedResult newDbContent = await _cmsApiClient.GetContentsByUserIdAsync(cmsUser.User.Id, 0, take);
+
+            foreach (ContentObjectDto rl in newDbContent.Items) 
+            {
+                await redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", rl.Path.ToString());
             }
 
             return Ok("All content pushed to Redis successfully.");
@@ -122,12 +125,17 @@ namespace MyApp.Controllers
             if (requestData.File == null || requestData.File.Length == 0)
                 return NotFound("file not selected");
 
-            if (this.database.Users.SingleOrDefault(u => u.Id == requestData.PublisherId) is null)
+            CmsLoginResponseDto cmsUser;
+            try
             {
-                return NotFound($"{requestData.PublisherId} user not found");
+                cmsUser = await _cmsApiClient.LoginAsync(CmsUsername, CmsPassword);
+
+            }
+            catch (HttpRequestException e)
+            {
+                return Unauthorized(new { error = $"Failed to login to CMS API: {e.Message}" });
             }
 
-            var isNotUnique = await this.database.Posts.AnyAsync(p => p.Source == new Uri($"{HttpContext.Request.Scheme}://{host}/img/{requestData.File.FileName}"));
 
             string path = Path.Combine(
                         Directory.GetCurrentDirectory(), "wwwroot/img",
@@ -136,29 +144,24 @@ namespace MyApp.Controllers
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await requestData.File.CopyToAsync(stream);
+
+                stream.Position = 0;
+
+                var fileContent = new StreamContent(stream);
+                var cmsContentSubmitted = await _cmsApiClient.CreateContentAsync(fileContent, requestData.File.FileName, cmsUser.User.Id, true, requestData.Description, true, false);
+
+                if (cmsContentSubmitted is null)
+                {
+                    return BadRequest(new { error = "Failed to create content in CMS." });
+                }
             }
 
-            string prefix = isNotUnique ? Guid.NewGuid().ToString().Replace("-", "") : "";
+            string prefix = Guid.NewGuid().ToString().Replace("-", "");
             string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{prefix}{requestData.File.FileName}";
 
-            ContentModel model = new ContentModel
-            {
-                Alt = requestData.Alt,
-                Description = requestData.Description,
-                Source = new Uri(fileUrl),
-                UserId = requestData.PublisherId,
-                Hidden = requestData.Hidden,
-            };
             
-            string serialized = JsonConvert.SerializeObject(model);
-            await this.database.Posts.AddAsync(model);
 
-            if (await this.database.SaveChangesAsync() > 0)
-            {
-                return Ok(serialized);
-            }
-
-            return Accepted(serialized);
+            return Accepted();
         }
 
         [HttpGet("ParseByLink")]
@@ -174,7 +177,7 @@ namespace MyApp.Controllers
                             Directory.GetCurrentDirectory(), "wwwroot/img",
                             url.Split("/").Last());
 
-                var fileName = await url
+                _ = await url
                     .WithHeader("User-Agent", "MyApp")
                     .DownloadFileAsync(Path.Combine(
                             Directory.GetCurrentDirectory(), "wwwroot/img"));
@@ -191,8 +194,7 @@ namespace MyApp.Controllers
                 };
 
                 string serialized = JsonConvert.SerializeObject(model);
-                await this.database.Posts.AddAsync(model);
-                await this.database.SaveChangesAsync();
+
                 await this.redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", fileUrl);
                 return Ok(url);
             }

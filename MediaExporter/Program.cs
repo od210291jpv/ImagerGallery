@@ -8,7 +8,7 @@ var files = Directory.GetFiles(@"Z:\Paul\ing");
 ApiClient apiClient = new ApiClient();
 
 await apiClient.ExportMedia(files);
-await apiClient.ExportPersistanceMedia(files);
+//await apiClient.ExportPersistanceMedia(files);
 
 Console.WriteLine("All media exported.");
 Console.WriteLine("Pushing to Redis...");
