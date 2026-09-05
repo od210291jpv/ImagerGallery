@@ -165,40 +165,68 @@ namespace MyApp.Controllers
         }
 
         [HttpGet("ParseByLink")]
-        public async Task<IActionResult> ParseByLink(string contentLink) 
+        public async Task<IActionResult> ParseByLink(string contentLink)
         {
-            //var url = await this.parser.Parse(contentLink);
             var url = contentLink;
-            if (url != string.Empty) 
+            if (string.IsNullOrEmpty(url))
+                return BadRequest("The content link is not valid or the content cannot be parsed.");
+
+            CmsLoginResponseDto cmsUser;
+            try
             {
-                var host = HttpContext.Request.Host.ToUriComponent();
-
-                string path = Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/img",
-                            url.Split("/").Last());
-
-                _ = await url
-                    .WithHeader("User-Agent", "MyApp")
-                    .DownloadFileAsync(Path.Combine(
-                            Directory.GetCurrentDirectory(), "wwwroot/img"));
-              
-                string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{url.Split("/").Last()}";
-
-                ContentModel model = new ContentModel
-                {
-                    Alt = "parsed",
-                    Description = "parsed",
-                    Source = new Uri(fileUrl),
-                    UserId = 1,
-                    Hidden = false,
-                };
-
-                string serialized = JsonConvert.SerializeObject(model);
-
-                await this.redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", fileUrl);
-                return Ok(url);
+                cmsUser = await _cmsApiClient.LoginAsync(CmsUsername, CmsPassword);
             }
-            return BadRequest("The content link is not valid or the content cannot be parsed.");
+            catch (HttpRequestException e)
+            {
+                return Unauthorized(new { error = $"Failed to login to CMS API: {e.Message}" });
+            }
+
+            var host = HttpContext.Request.Host.ToUriComponent();
+            var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img");
+
+            string downloadedFilePath = await url
+                .WithHeader("User-Agent", "MyApp")
+                .DownloadFileAsync(targetDirectory);
+
+            using (var stream = new FileStream(downloadedFilePath, FileMode.Open, FileAccess.Read))
+            {
+
+                var fileContent = new StreamContent(stream);
+
+                string actualFileName = Path.GetFileName(downloadedFilePath);
+
+                var cmsContentSubmitted = await _cmsApiClient.CreateContentAsync(
+                    fileContent,
+                    actualFileName,
+                    cmsUser.User.Id,
+                    true,
+                    "Nod",
+                    true,
+                    false);
+
+                if (cmsContentSubmitted is null)
+                {
+                    return BadRequest(new { error = "Failed to create content in CMS." });
+                }
+            }
+
+            // 3. Формуємо URL для відповіді, використовуючи фактичне ім'я файлу
+            string fileUrl = $"{HttpContext.Request.Scheme}://{host}/img/{Path.GetFileName(downloadedFilePath)}";
+
+            ContentModel model = new ContentModel
+            {
+                Alt = "parsed",
+                Description = "parsed",
+                Source = new Uri(fileUrl),
+                UserId = 1, // Можливо, тут теж варто використати cmsUser.User.Id?
+                Hidden = false,
+            };
+
+            string serialized = JsonConvert.SerializeObject(model);
+
+            await this.redisDb.StringSetAsync($"{Guid.NewGuid().ToString()}:fapeza", fileUrl);
+
+            return Ok(url);
         }
     }
 }
